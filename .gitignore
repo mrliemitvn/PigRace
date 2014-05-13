@@ -1,1 +1,5 @@
+# Mac file.
 .DS_Store
+
+# Xcode file.
+*.xcodeproj
