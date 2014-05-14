@@ -72,6 +72,12 @@
 		8446665A1920A3D600F75ED3 /* btn_wooden_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 844666591920A3D600F75ED3 /* btn_wooden_on.png */; };
 		844666611920B0C500F75ED3 /* btn_quit_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8446665F1920B0C500F75ED3 /* btn_quit_off.png */; };
 		844666621920B0C500F75ED3 /* btn_quit_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 844666601920B0C500F75ED3 /* btn_quit_on.png */; };
+		8470B97719232BCC00E14E53 /* icon_carrot.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97419232BCC00E14E53 /* icon_carrot.png */; };
+		8470B97819232BCC00E14E53 /* icon_coin.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97519232BCC00E14E53 /* icon_coin.png */; };
+		8470B97919232BCC00E14E53 /* icon_strawberry.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97619232BCC00E14E53 /* icon_strawberry.png */; };
+		8470B97C19232BFB00E14E53 /* HighScoreScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470B97B19232BFB00E14E53 /* HighScoreScreen.cpp */; };
+		8470B97F19233F9900E14E53 /* bg_tutorial.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97E19233F9900E14E53 /* bg_tutorial.png */; };
+		8470B98719234C3A00E14E53 /* TutorialScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470B98619234C3A00E14E53 /* TutorialScreen.cpp */; };
 		84918CFD1920B4D300434E39 /* btn_highscore_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 84918CF51920B4D300434E39 /* btn_highscore_off.png */; };
 		84918CFE1920B4D300434E39 /* btn_highscore_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 84918CF61920B4D300434E39 /* btn_highscore_on.png */; };
 		84918CFF1920B4D300434E39 /* btn_setting_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 84918CF71920B4D300434E39 /* btn_setting_off.png */; };
@@ -291,6 +297,15 @@
 		844666591920A3D600F75ED3 /* btn_wooden_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_wooden_on.png; sourceTree = "<group>"; };
 		8446665F1920B0C500F75ED3 /* btn_quit_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_quit_off.png; sourceTree = "<group>"; };
 		844666601920B0C500F75ED3 /* btn_quit_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_quit_on.png; sourceTree = "<group>"; };
+		8470B9711922F5FE00E14E53 /* Consts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Consts.h; path = ../Classes/Consts.h; sourceTree = "<group>"; };
+		8470B97419232BCC00E14E53 /* icon_carrot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_carrot.png; sourceTree = "<group>"; };
+		8470B97519232BCC00E14E53 /* icon_coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_coin.png; sourceTree = "<group>"; };
+		8470B97619232BCC00E14E53 /* icon_strawberry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_strawberry.png; sourceTree = "<group>"; };
+		8470B97A19232BE700E14E53 /* HighScoreScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HighScoreScreen.h; path = ../Classes/HighScoreScreen.h; sourceTree = "<group>"; };
+		8470B97B19232BFB00E14E53 /* HighScoreScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HighScoreScreen.cpp; path = ../Classes/HighScoreScreen.cpp; sourceTree = "<group>"; };
+		8470B97E19233F9900E14E53 /* bg_tutorial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_tutorial.png; sourceTree = "<group>"; };
+		8470B98319234C2300E14E53 /* TutorialScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialScreen.h; path = ../Classes/TutorialScreen.h; sourceTree = "<group>"; };
+		8470B98619234C3A00E14E53 /* TutorialScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TutorialScreen.cpp; path = ../Classes/TutorialScreen.cpp; sourceTree = "<group>"; };
 		84918CF51920B4D300434E39 /* btn_highscore_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_highscore_off.png; sourceTree = "<group>"; };
 		84918CF61920B4D300434E39 /* btn_highscore_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_highscore_on.png; sourceTree = "<group>"; };
 		84918CF71920B4D300434E39 /* btn_setting_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_setting_off.png; sourceTree = "<group>"; };
@@ -382,6 +397,11 @@
 				1AFAF8B616D35DE700DB1158 /* HelloWorldScene.h */,
 				84154BAB1921D57A00BA8C65 /* SettingScreen.h */,
 				84154BAC1921D59100BA8C65 /* SettingScreen.cpp */,
+				8470B9711922F5FE00E14E53 /* Consts.h */,
+				8470B97A19232BE700E14E53 /* HighScoreScreen.h */,
+				8470B97B19232BFB00E14E53 /* HighScoreScreen.cpp */,
+				8470B98319234C2300E14E53 /* TutorialScreen.h */,
+				8470B98619234C3A00E14E53 /* TutorialScreen.cpp */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -497,6 +517,10 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8470B97E19233F9900E14E53 /* bg_tutorial.png */,
+				8470B97419232BCC00E14E53 /* icon_carrot.png */,
+				8470B97519232BCC00E14E53 /* icon_coin.png */,
+				8470B97619232BCC00E14E53 /* icon_strawberry.png */,
 				84154BBB192203AA00BA8C65 /* btn_ok_off.png */,
 				84154BBC192203AA00BA8C65 /* btn_ok_on.png */,
 				84154BB11921FA6500BA8C65 /* bg_menu_setting.png */,
@@ -689,6 +713,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84154BB61921FA6500BA8C65 /* bg_menu_setting.png in Resources */,
+				8470B97819232BCC00E14E53 /* icon_coin.png in Resources */,
 				844666581920A01000F75ED3 /* btn_wooden_off.png in Resources */,
 				84154BBA1921FA6500BA8C65 /* btn_sound_effect_on.png in Resources */,
 				8446665A1920A3D600F75ED3 /* btn_wooden_on.png in Resources */,
@@ -699,10 +724,12 @@
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
+				8470B97F19233F9900E14E53 /* bg_tutorial.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				84154BBD192203AA00BA8C65 /* btn_ok_off.png in Resources */,
 				84154BB71921FA6500BA8C65 /* btn_game_music_off.png in Resources */,
 				84918CFD1920B4D300434E39 /* btn_highscore_off.png in Resources */,
+				8470B97719232BCC00E14E53 /* icon_carrot.png in Resources */,
 				84918CFF1920B4D300434E39 /* btn_setting_off.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
@@ -714,6 +741,7 @@
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
+				8470B97919232BCC00E14E53 /* icon_strawberry.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				844666611920B0C500F75ED3 /* btn_quit_off.png in Resources */,
@@ -747,11 +775,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				8470B97C19232BFB00E14E53 /* HighScoreScreen.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				84154BAD1921D59100BA8C65 /* SettingScreen.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
+				8470B98719234C3A00E14E53 /* TutorialScreen.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

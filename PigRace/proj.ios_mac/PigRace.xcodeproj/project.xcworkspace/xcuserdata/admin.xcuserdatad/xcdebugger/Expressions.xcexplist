@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "SettingScreen::soundEffectToggleCallback(cocos2d::Ref*):SettingScreen.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "btnSoundEffectOff">
+            </PersistentString>
+            <PersistentString
+               value = "menuSelected-&gt;getTag()">
+            </PersistentString>
+            <PersistentString
+               value = "btnGameMusicOn-&gt;getTag()">
+            </PersistentString>
+            <PersistentString
+               value = "btnSoundEffectOn">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

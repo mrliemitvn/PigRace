@@ -1,5 +1,7 @@
 #include "HelloWorldScene.h"
 #include "SettingScreen.h"
+#include "HighScoreScreen.h"
+#include "TutorialScreen.h"
 
 USING_NS_CC;
 
@@ -70,10 +72,10 @@ void HelloWorld::createGameScreen() {
     auto btnSetting = MenuItemImage::create("btn_setting_off.png", "btn_setting_on.png", CC_CALLBACK_1(HelloWorld::menuSettingCallback, this));
     btnSetting->setPosition(Point(origin.x + visibleSize.width/2, origin.y + btnSetting->getContentSize().height*2));
     // Add tutorial button.
-    auto btnTutorial = MenuItemImage::create("btn_tutorial_off.png", "btn_tutorial_on.png", CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    auto btnTutorial = MenuItemImage::create("btn_tutorial_off.png", "btn_tutorial_on.png", CC_CALLBACK_1(HelloWorld::menuTutorialCallback, this));
     btnTutorial->setPosition(Point(origin.x + visibleSize.width/2, origin.y + btnTutorial->getContentSize().height*3));
     // Add high score button.
-    auto btnHighScore = MenuItemImage::create("btn_highscore_off.png", "btn_highscore_on.png", CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    auto btnHighScore = MenuItemImage::create("btn_highscore_off.png", "btn_highscore_on.png", CC_CALLBACK_1(HelloWorld::menuHighScoreCallback, this));
     btnHighScore->setPosition(Point(origin.x + visibleSize.width/2, origin.y + btnHighScore->getContentSize().height*4));
     // Add start button.
     auto btnStart = MenuItemImage::create("btn_start_off.png", "btn_start_on.png", CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
@@ -108,4 +110,20 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 void HelloWorld::menuSettingCallback(Ref *pSender) {
     Scene *settingScene = SettingScreen::createScene();
     Director::getInstance()->pushScene(settingScene);
+}
+
+/*
+ * Handle event when click on high score button.
+ */
+void HelloWorld::menuHighScoreCallback(Ref *pSender) {
+    Scene *highScoreScene = HighScoreScreen::createScene();
+    Director::getInstance()->pushScene(highScoreScene);
+}
+
+/*
+ * Handle event when click on tutorial button.
+ */
+void HelloWorld::menuTutorialCallback(Ref *pSender) {
+    Scene *highScoreScene = TutorialScreen::createScene();
+    Director::getInstance()->pushScene(highScoreScene);
 }

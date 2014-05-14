@@ -27,6 +27,12 @@ public:
     // Handle event when click on setting button.
     void menuSettingCallback(Ref *pSender);
     
+    // Handle event when click on high score button.
+    void menuHighScoreCallback(Ref *pSender);
+    
+    // Handle event when click on tutorial button.
+    void menuTutorialCallback(Ref *pSender);
+    
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };
