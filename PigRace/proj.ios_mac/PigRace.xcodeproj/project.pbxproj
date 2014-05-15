@@ -79,6 +79,7 @@
 		8460C51D192452EB00328E0F /* btn_jump_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C517192452EB00328E0F /* btn_jump_off.png */; };
 		8460C51E192452EB00328E0F /* btn_jump_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C518192452EB00328E0F /* btn_jump_on.png */; };
 		8460C524192486AE00328E0F /* icon_stone.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C523192486AE00328E0F /* icon_stone.png */; };
+		8460C52C1924A8F700328E0F /* SelectLevelScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8460C52B1924A8F700328E0F /* SelectLevelScreen.cpp */; };
 		8470B97719232BCC00E14E53 /* icon_carrot.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97419232BCC00E14E53 /* icon_carrot.png */; };
 		8470B97819232BCC00E14E53 /* icon_coin.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97519232BCC00E14E53 /* icon_coin.png */; };
 		8470B97919232BCC00E14E53 /* icon_strawberry.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97619232BCC00E14E53 /* icon_strawberry.png */; };
@@ -311,6 +312,8 @@
 		8460C517192452EB00328E0F /* btn_jump_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_jump_off.png; sourceTree = "<group>"; };
 		8460C518192452EB00328E0F /* btn_jump_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_jump_on.png; sourceTree = "<group>"; };
 		8460C523192486AE00328E0F /* icon_stone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_stone.png; sourceTree = "<group>"; };
+		8460C5281924A8C200328E0F /* SelectLevelScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectLevelScreen.h; path = ../Classes/SelectLevelScreen.h; sourceTree = "<group>"; };
+		8460C52B1924A8F700328E0F /* SelectLevelScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SelectLevelScreen.cpp; path = ../Classes/SelectLevelScreen.cpp; sourceTree = "<group>"; };
 		8470B9711922F5FE00E14E53 /* Consts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Consts.h; path = ../Classes/Consts.h; sourceTree = "<group>"; };
 		8470B97419232BCC00E14E53 /* icon_carrot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_carrot.png; sourceTree = "<group>"; };
 		8470B97519232BCC00E14E53 /* icon_coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_coin.png; sourceTree = "<group>"; };
@@ -416,6 +419,8 @@
 				8470B97B19232BFB00E14E53 /* HighScoreScreen.cpp */,
 				8470B98319234C2300E14E53 /* TutorialScreen.h */,
 				8470B98619234C3A00E14E53 /* TutorialScreen.cpp */,
+				8460C5281924A8C200328E0F /* SelectLevelScreen.h */,
+				8460C52B1924A8F700328E0F /* SelectLevelScreen.cpp */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -810,6 +815,7 @@
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
 				8470B98719234C3A00E14E53 /* TutorialScreen.cpp in Sources */,
+				8460C52C1924A8F700328E0F /* SelectLevelScreen.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

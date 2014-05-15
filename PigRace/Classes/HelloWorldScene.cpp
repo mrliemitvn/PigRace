@@ -2,6 +2,7 @@
 #include "SettingScreen.h"
 #include "HighScoreScreen.h"
 #include "TutorialScreen.h"
+#include "SelectLevelScreen.h"
 
 USING_NS_CC;
 
@@ -79,7 +80,7 @@ void HelloWorld::createGameScreen() {
     auto btnHighScore = MenuItemImage::create("btn_highscore_off.png", "btn_highscore_on.png", CC_CALLBACK_1(HelloWorld::menuHighScoreCallback, this));
     btnHighScore->setPosition(Point(origin.x + visibleSize.width/2, origin.y + btnHighScore->getContentSize().height*4));
     // Add start button.
-    auto btnStart = MenuItemImage::create("btn_start_off.png", "btn_start_on.png", CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    auto btnStart = MenuItemImage::create("btn_start_off.png", "btn_start_on.png", CC_CALLBACK_1(HelloWorld::menuStartCallback, this));
     btnStart->setPosition(Point(origin.x + visibleSize.width/2, origin.y + btnStart->getContentSize().height*5));
     
     // create menu, it's an autorelease object
@@ -127,4 +128,12 @@ void HelloWorld::menuHighScoreCallback(Ref *pSender) {
 void HelloWorld::menuTutorialCallback(Ref *pSender) {
     Scene *highScoreScene = TutorialScreen::createScene();
     Director::getInstance()->pushScene(highScoreScene);
+}
+
+/* 
+ * Handle event when click on start button.
+ */
+void HelloWorld::menuStartCallback(Ref *pSender) {
+    Scene *selectLevelScreen = SelectLevelScreen::createScene();
+    Director::getInstance()->pushScene(selectLevelScreen);
 }

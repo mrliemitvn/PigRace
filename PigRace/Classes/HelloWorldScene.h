@@ -33,6 +33,9 @@ public:
     // Handle event when click on tutorial button.
     void menuTutorialCallback(Ref *pSender);
     
+    // Handle event when click on start button.
+    void menuStartCallback(Ref *pSender);
+    
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };
