@@ -72,6 +72,13 @@
 		8446665A1920A3D600F75ED3 /* btn_wooden_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 844666591920A3D600F75ED3 /* btn_wooden_on.png */; };
 		844666611920B0C500F75ED3 /* btn_quit_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8446665F1920B0C500F75ED3 /* btn_quit_off.png */; };
 		844666621920B0C500F75ED3 /* btn_quit_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 844666601920B0C500F75ED3 /* btn_quit_on.png */; };
+		8460C519192452EB00328E0F /* btn_arrow_down_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C513192452EB00328E0F /* btn_arrow_down_off.png */; };
+		8460C51A192452EB00328E0F /* btn_arrow_down_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C514192452EB00328E0F /* btn_arrow_down_on.png */; };
+		8460C51B192452EB00328E0F /* btn_arrow_up_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C515192452EB00328E0F /* btn_arrow_up_off.png */; };
+		8460C51C192452EB00328E0F /* btn_arrow_up_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C516192452EB00328E0F /* btn_arrow_up_on.png */; };
+		8460C51D192452EB00328E0F /* btn_jump_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C517192452EB00328E0F /* btn_jump_off.png */; };
+		8460C51E192452EB00328E0F /* btn_jump_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C518192452EB00328E0F /* btn_jump_on.png */; };
+		8460C524192486AE00328E0F /* icon_stone.png in Resources */ = {isa = PBXBuildFile; fileRef = 8460C523192486AE00328E0F /* icon_stone.png */; };
 		8470B97719232BCC00E14E53 /* icon_carrot.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97419232BCC00E14E53 /* icon_carrot.png */; };
 		8470B97819232BCC00E14E53 /* icon_coin.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97519232BCC00E14E53 /* icon_coin.png */; };
 		8470B97919232BCC00E14E53 /* icon_strawberry.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97619232BCC00E14E53 /* icon_strawberry.png */; };
@@ -297,6 +304,13 @@
 		844666591920A3D600F75ED3 /* btn_wooden_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_wooden_on.png; sourceTree = "<group>"; };
 		8446665F1920B0C500F75ED3 /* btn_quit_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_quit_off.png; sourceTree = "<group>"; };
 		844666601920B0C500F75ED3 /* btn_quit_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_quit_on.png; sourceTree = "<group>"; };
+		8460C513192452EB00328E0F /* btn_arrow_down_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_arrow_down_off.png; sourceTree = "<group>"; };
+		8460C514192452EB00328E0F /* btn_arrow_down_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_arrow_down_on.png; sourceTree = "<group>"; };
+		8460C515192452EB00328E0F /* btn_arrow_up_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_arrow_up_off.png; sourceTree = "<group>"; };
+		8460C516192452EB00328E0F /* btn_arrow_up_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_arrow_up_on.png; sourceTree = "<group>"; };
+		8460C517192452EB00328E0F /* btn_jump_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_jump_off.png; sourceTree = "<group>"; };
+		8460C518192452EB00328E0F /* btn_jump_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_jump_on.png; sourceTree = "<group>"; };
+		8460C523192486AE00328E0F /* icon_stone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_stone.png; sourceTree = "<group>"; };
 		8470B9711922F5FE00E14E53 /* Consts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Consts.h; path = ../Classes/Consts.h; sourceTree = "<group>"; };
 		8470B97419232BCC00E14E53 /* icon_carrot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_carrot.png; sourceTree = "<group>"; };
 		8470B97519232BCC00E14E53 /* icon_coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_coin.png; sourceTree = "<group>"; };
@@ -517,6 +531,13 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8460C523192486AE00328E0F /* icon_stone.png */,
+				8460C513192452EB00328E0F /* btn_arrow_down_off.png */,
+				8460C514192452EB00328E0F /* btn_arrow_down_on.png */,
+				8460C515192452EB00328E0F /* btn_arrow_up_off.png */,
+				8460C516192452EB00328E0F /* btn_arrow_up_on.png */,
+				8460C517192452EB00328E0F /* btn_jump_off.png */,
+				8460C518192452EB00328E0F /* btn_jump_on.png */,
 				8470B97E19233F9900E14E53 /* bg_tutorial.png */,
 				8470B97419232BCC00E14E53 /* icon_carrot.png */,
 				8470B97519232BCC00E14E53 /* icon_coin.png */,
@@ -717,6 +738,7 @@
 				844666581920A01000F75ED3 /* btn_wooden_off.png in Resources */,
 				84154BBA1921FA6500BA8C65 /* btn_sound_effect_on.png in Resources */,
 				8446665A1920A3D600F75ED3 /* btn_wooden_on.png in Resources */,
+				8460C519192452EB00328E0F /* btn_arrow_down_off.png in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				84918CFE1920B4D300434E39 /* btn_highscore_on.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
@@ -724,22 +746,28 @@
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
+				8460C51E192452EB00328E0F /* btn_jump_on.png in Resources */,
 				8470B97F19233F9900E14E53 /* bg_tutorial.png in Resources */,
+				8460C51B192452EB00328E0F /* btn_arrow_up_off.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				84154BBD192203AA00BA8C65 /* btn_ok_off.png in Resources */,
 				84154BB71921FA6500BA8C65 /* btn_game_music_off.png in Resources */,
+				8460C524192486AE00328E0F /* icon_stone.png in Resources */,
 				84918CFD1920B4D300434E39 /* btn_highscore_off.png in Resources */,
 				8470B97719232BCC00E14E53 /* icon_carrot.png in Resources */,
 				84918CFF1920B4D300434E39 /* btn_setting_off.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
+				8460C51C192452EB00328E0F /* btn_arrow_up_on.png in Resources */,
 				844666621920B0C500F75ED3 /* btn_quit_on.png in Resources */,
 				84918D021920B4D300434E39 /* btn_start_on.png in Resources */,
 				84154BBE192203AA00BA8C65 /* btn_ok_on.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
+				8460C51D192452EB00328E0F /* btn_jump_off.png in Resources */,
+				8460C51A192452EB00328E0F /* btn_arrow_down_on.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				8470B97919232BCC00E14E53 /* icon_strawberry.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,

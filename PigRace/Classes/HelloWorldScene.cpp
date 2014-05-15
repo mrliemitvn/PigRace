@@ -54,9 +54,10 @@ void HelloWorld::createGameScreen() {
     
     // add a label shows "Pig Race"
     // create and initialize a label
-    gameLabel = Label::createWithSystemFont("Pig Race", "Arial", 30);
+    gameLabel = Label::createWithSystemFont("Pig Race", "Marker Felt", 30);
     
     gameLabel->setScale(2.0);
+    gameLabel->setColor(Color3B::YELLOW);
     // position the label on the center of the screen
     gameLabel->setPosition(Point(origin.x + visibleSize.width/2,
                                          origin.y + visibleSize.height - gameLabel->getContentSize().height));

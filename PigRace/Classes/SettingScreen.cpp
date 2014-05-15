@@ -61,9 +61,10 @@ void SettingScreen::createSettingScreen() {
     
     // add a label shows "Setting"
     // create and initialize a label
-    settingLabel = Label::createWithSystemFont("Setting", "Arial", 30);
+    settingLabel = Label::createWithSystemFont("Setting", "Marker Felt", 30);
     
     settingLabel->setScale(2.0);
+    settingLabel->setColor(Color3B::YELLOW);
     // position the label on the center of the screen
     settingLabel->setPosition(Point(origin.x + visibleSize.width/2,
                                     origin.y + visibleSize.height - settingLabel->getContentSize().height));

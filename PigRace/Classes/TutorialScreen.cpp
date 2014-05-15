@@ -60,9 +60,10 @@ void TutorialScreen::createTutorialScreen() {
     
     // add a label shows "Tutorial"
     // create and initialize a label
-    tutorialLabel = Label::createWithSystemFont("Tutorial", "Arial", 30);
+    tutorialLabel = Label::createWithSystemFont("Tutorial", "Marker Felt", 30);
     
     tutorialLabel->setScale(2.0);
+    tutorialLabel->setColor(Color3B::YELLOW);
     // position the label on the center of the screen
     tutorialLabel->setPosition(Point(origin.x + visibleSize.width/2, origin.y + visibleSize.height - tutorialLabel->getContentSize().height));
     
@@ -90,6 +91,60 @@ void TutorialScreen::createTutorialScreen() {
     // add the sprite as a child to this layer
     this->addChild(bgTutorialMenu, 1);
     
+    // Add guide.
+    auto textAreaSize = CCSizeMake(visibleSize.width - 165, 50);
+    auto btnArrowUp = Sprite::create("btn_arrow_up_off.png");
+    auto btnArrowDown = Sprite::create("btn_arrow_down_off.png");
+    auto btnJump = Sprite::create("btn_jump_off.png");
+    
+    btnArrowUp->setPosition(Point(origin.x + 10 + 47 / 2,
+                                  visibleSize.height - tutorialLabel->getContentSize().height * 2 - 20));
+    btnArrowUp->setScale(47 / btnArrowUp->getContentSize().width, 40 / btnArrowUp->getContentSize().height);
+    btnArrowDown->setPosition(Point(btnArrowUp->getPosition().x + 47, btnArrowUp->getPosition().y));
+    btnArrowDown->setScale(47 / btnArrowDown->getContentSize().width, 40 / btnArrowDown->getContentSize().height);
+    btnJump->setPosition(Point(btnArrowDown->getPosition().x + 47, btnArrowDown->getPosition().y));
+    btnJump->setScale(40 / btnJump->getContentSize().width, 40 / btnJump->getContentSize().height);
+    
+    auto controlLabel = CCLabelTTF::create("Use these buttons to control the pig", "Marker Felt", 25,
+                                           textAreaSize, kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+    controlLabel->setColor(Color3B::BLACK);
+    controlLabel->setPosition(Point(btnJump->getPosition().x + 25, btnJump->getPosition().y - 12.5));
+    controlLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    controlLabel->setAnchorPoint(Point::ANCHOR_MIDDLE_LEFT);
+    
+    auto iconCarrot = Sprite::create("icon_carrot.png");
+    auto iconStrawberry = Sprite::create("icon_strawberry.png");
+    iconCarrot->setPosition(Point(btnArrowUp->getPosition().x, controlLabel->getPosition().y - 30 - iconCarrot->getContentSize().height / 2));
+    iconStrawberry->setPosition(Point(iconCarrot->getPosition().x + iconStrawberry->getContentSize().width + 5,
+                                      controlLabel->getPosition().y - 30 - iconCarrot->getContentSize().height / 2));
+    
+    auto collectLabel = CCLabelTTF::create("Collect farm produces to get more coins", "Marker Felt", 25,
+                                           textAreaSize, kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+    collectLabel->setColor(Color3B::BLACK);
+    collectLabel->setPosition(Point(controlLabel->getPosition().x, controlLabel->getPosition().y - textAreaSize.height - 5));
+    collectLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    collectLabel->setAnchorPoint(Point::ANCHOR_MIDDLE_LEFT);
+    
+    auto iconStone = Sprite::create("icon_stone.png");
+    iconStone->setPosition(Point(20 + 69 / 2, collectLabel->getPosition().y - 30 - 20));
+    iconStone->setScale(69 / iconStone->getContentSize().width, 40 / iconStone->getContentSize().height);
+    
+    auto evadeLabel = CCLabelTTF::create("Evade all obstructions", "Marker Felt", 25, textAreaSize,
+                                         kCCTextAlignmentLeft, kCCVerticalTextAlignmentTop);
+    evadeLabel->setColor(Color3B::BLACK);
+    evadeLabel->setPosition(Point(collectLabel->getPosition().x, collectLabel->getPosition().y - textAreaSize.height - 5));
+    evadeLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+    evadeLabel->setAnchorPoint(Point::ANCHOR_MIDDLE_LEFT);
+    
+    this->addChild(btnArrowUp, 2);
+    this->addChild(btnArrowDown, 2);
+    this->addChild(btnJump, 2);
+    this->addChild(controlLabel, 2);
+    this->addChild(iconCarrot, 2);
+    this->addChild(iconStrawberry, 2);
+    this->addChild(collectLabel, 2);
+    this->addChild(iconStone, 2);
+    this->addChild(evadeLabel, 2);
 }
 
 /*

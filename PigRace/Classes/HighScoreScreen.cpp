@@ -61,9 +61,10 @@ void HighScoreScreen::createHighScoreScreen() {
     
     // add a label shows "High score"
     // create and initialize a label
-    settingLabel = Label::createWithSystemFont("High score", "Arial", 30);
+    settingLabel = Label::createWithSystemFont("High score", "Marker Felt", 30);
     
     settingLabel->setScale(2.0);
+    settingLabel->setColor(Color3B::YELLOW);
     // position the label on the center of the screen
     settingLabel->setPosition(Point(origin.x + visibleSize.width/2,
                                     origin.y + visibleSize.height - settingLabel->getContentSize().height));
