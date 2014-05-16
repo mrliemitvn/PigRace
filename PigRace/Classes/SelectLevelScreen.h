@@ -31,11 +31,17 @@ public:
     // Create select level screen.
     void createSelectLevelScreen();
     
+    // Create level buttons.
+    void createLevelButtons();
+    
     // Handle event when click menu button.
     void menuCallback(Ref* pSender);
     
     // Handle event when click cancel button.
     void menuCancelCallback(Ref *pSender);
+    
+    // Handle event when click each level button.
+    void menuLevelCallback(Ref *pSender);
     
     // implement the "static create()" method manually
     CREATE_FUNC(SelectLevelScreen);

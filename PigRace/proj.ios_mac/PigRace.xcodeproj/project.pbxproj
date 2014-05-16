@@ -95,6 +95,11 @@
 		84918D031920B4D300434E39 /* btn_tutorial_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 84918CFB1920B4D300434E39 /* btn_tutorial_off.png */; };
 		84918D041920B4D300434E39 /* btn_tutorial_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 84918CFC1920B4D300434E39 /* btn_tutorial_on.png */; };
 		84918D081920C09C00434E39 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 84918D071920C09C00434E39 /* bg.png */; };
+		84D9A6C81925EC7800B6637E /* bg_game_play_road.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D9A6C51925EC7800B6637E /* bg_game_play_road.png */; };
+		84D9A6C91925EC7800B6637E /* bg_game_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D9A6C61925EC7800B6637E /* bg_game_play.png */; };
+		84D9A6CA1925EC7800B6637E /* icon_line.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D9A6C71925EC7800B6637E /* icon_line.png */; };
+		84D9A6CF1925ECF300B6637E /* GamePlayScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84D9A6CE1925ECF300B6637E /* GamePlayScreen.cpp */; };
+		84D9A6D31925FCF800B6637E /* Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84D9A6D21925FCF800B6637E /* Line.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -332,6 +337,13 @@
 		84918CFB1920B4D300434E39 /* btn_tutorial_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_tutorial_off.png; sourceTree = "<group>"; };
 		84918CFC1920B4D300434E39 /* btn_tutorial_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_tutorial_on.png; sourceTree = "<group>"; };
 		84918D071920C09C00434E39 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		84D9A6C51925EC7800B6637E /* bg_game_play_road.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_game_play_road.png; sourceTree = "<group>"; };
+		84D9A6C61925EC7800B6637E /* bg_game_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_game_play.png; sourceTree = "<group>"; };
+		84D9A6C71925EC7800B6637E /* icon_line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_line.png; sourceTree = "<group>"; };
+		84D9A6CD1925ECDB00B6637E /* GamePlayScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePlayScreen.h; path = ../Classes/GamePlayScreen.h; sourceTree = "<group>"; };
+		84D9A6CE1925ECF300B6637E /* GamePlayScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GamePlayScreen.cpp; path = ../Classes/GamePlayScreen.cpp; sourceTree = "<group>"; };
+		84D9A6D11925FCEB00B6637E /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Line.h; path = ../Classes/Line.h; sourceTree = "<group>"; };
+		84D9A6D21925FCF800B6637E /* Line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Line.cpp; path = ../Classes/Line.cpp; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -421,6 +433,10 @@
 				8470B98619234C3A00E14E53 /* TutorialScreen.cpp */,
 				8460C5281924A8C200328E0F /* SelectLevelScreen.h */,
 				8460C52B1924A8F700328E0F /* SelectLevelScreen.cpp */,
+				84D9A6CD1925ECDB00B6637E /* GamePlayScreen.h */,
+				84D9A6CE1925ECF300B6637E /* GamePlayScreen.cpp */,
+				84D9A6D11925FCEB00B6637E /* Line.h */,
+				84D9A6D21925FCF800B6637E /* Line.cpp */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -536,6 +552,9 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				84D9A6C51925EC7800B6637E /* bg_game_play_road.png */,
+				84D9A6C61925EC7800B6637E /* bg_game_play.png */,
+				84D9A6C71925EC7800B6637E /* icon_line.png */,
 				8460C523192486AE00328E0F /* icon_stone.png */,
 				8460C513192452EB00328E0F /* btn_arrow_down_off.png */,
 				8460C514192452EB00328E0F /* btn_arrow_down_on.png */,
@@ -742,6 +761,7 @@
 				8470B97819232BCC00E14E53 /* icon_coin.png in Resources */,
 				844666581920A01000F75ED3 /* btn_wooden_off.png in Resources */,
 				84154BBA1921FA6500BA8C65 /* btn_sound_effect_on.png in Resources */,
+				84D9A6C81925EC7800B6637E /* bg_game_play_road.png in Resources */,
 				8446665A1920A3D600F75ED3 /* btn_wooden_on.png in Resources */,
 				8460C519192452EB00328E0F /* btn_arrow_down_off.png in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
@@ -761,12 +781,14 @@
 				84918CFD1920B4D300434E39 /* btn_highscore_off.png in Resources */,
 				8470B97719232BCC00E14E53 /* icon_carrot.png in Resources */,
 				84918CFF1920B4D300434E39 /* btn_setting_off.png in Resources */,
+				84D9A6CA1925EC7800B6637E /* icon_line.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				8460C51C192452EB00328E0F /* btn_arrow_up_on.png in Resources */,
 				844666621920B0C500F75ED3 /* btn_quit_on.png in Resources */,
 				84918D021920B4D300434E39 /* btn_start_on.png in Resources */,
+				84D9A6C91925EC7800B6637E /* bg_game_play.png in Resources */,
 				84154BBE192203AA00BA8C65 /* btn_ok_on.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
@@ -808,7 +830,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				84D9A6CF1925ECF300B6637E /* GamePlayScreen.cpp in Sources */,
 				8470B97C19232BFB00E14E53 /* HighScoreScreen.cpp in Sources */,
+				84D9A6D31925FCF800B6637E /* Line.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				84154BAD1921D59100BA8C65 /* SettingScreen.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
