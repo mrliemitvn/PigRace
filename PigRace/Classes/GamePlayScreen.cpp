@@ -54,14 +54,18 @@ void GamePlayScreen::createGamePlayScreen() {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
     
+    ///////////////////////////////////
     // add background.
+    //////////////////////////////////
+    
+    // First background.
     bgGame = Sprite::create("bg_game_play.png");
     
     // position the sprite on the center of the screen
     bgGame->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     
     // add the sprite as a child to this layer
-    this->addChild(bgGame, 0);
+    this->addChild(bgGame, firstGround);
     
     // Add background of road.
     bgRoad = Sprite::create("bg_game_play_road.png");
@@ -70,7 +74,37 @@ void GamePlayScreen::createGamePlayScreen() {
     bgRoad->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     float roadHeight = visibleSize.height / 5 * 3;
     bgRoad->setScale(visibleSize.width / bgRoad->getContentSize().width, roadHeight / bgRoad->getContentSize().height);
-    this->addChild(bgRoad, 1);
+    this->addChild(bgRoad, secondGround);
+    
+    //////////////////////////////////
+    // Add control buttons.
+    //////////////////////////////////
+    // Jump button.
+    btnJump = MenuItemImage::create("btn_jump_off.png", "btn_jump_on.png", CC_CALLBACK_1(GamePlayScreen::controlButtonCallback, this));
+    btnJump->setScale(40 / btnJump->getContentSize().width);
+    btnJump->setPosition(Point(20 + 10, visibleSize.height / 10));
+    
+    // Arrow buttons.
+    btnUpArrow = MenuItemImage::create("btn_arrow_up_off.png", "btn_arrow_up_on.png", CC_CALLBACK_1(GamePlayScreen::controlButtonCallback, this));
+    btnDownArrow = MenuItemImage::create("btn_arrow_down_off.png", "btn_arrow_down_on.png", CC_CALLBACK_1(GamePlayScreen::controlButtonCallback, this));
+    btnUpArrow->setScale(40 / btnUpArrow->getContentSize().width);
+    btnDownArrow->setScale(40 / btnDownArrow->getContentSize().width);
+    btnDownArrow->setPosition(Point(visibleSize.width - 20 - 10, visibleSize.height / 10));
+    btnUpArrow->setPosition(Point(btnDownArrow->getPosition().x - 40 - 5, visibleSize.height / 10));
+    
+    // create menu, it's an autorelease object
+    Menu *menu = Menu::create(btnJump, btnUpArrow, btnDownArrow, NULL);
+    menu->setPosition(Point::ZERO);
+    this->addChild(menu, thirdGround);
+    
+    //////////////////////////////////
+    // Add icon pig.
+    //////////////////////////////////
+    iconPig = Sprite::create("icon_pig.png");
+    float scale = 50 / iconPig->getContentSize().height;
+    iconPig->setScale(scale);
+    iconPig->setPosition(Point(iconPig->getContentSize().width * scale / 2 + 5, visibleSize.height / 2));
+    this->addChild(iconPig, fourthGround);
 }
 
 void GamePlayScreen::update(float dt) {
@@ -96,8 +130,8 @@ void GamePlayScreen::addLine() {
     line2->setPosition(Point(visibleSize.width + line2->getContentSize().width / 2, visibleSize.height / 5 * 2));
     line1->setScale(5 / line1->getContentSize().height);
     line2->setScale(5 / line2->getContentSize().height);
-    this->addChild(line1, 2);
-    this->addChild(line2, 2);
+    this->addChild(line1, thirdGround);
+    this->addChild(line2, thirdGround);
     //Xac dinh toc do quai vat
     int minDuration = line1->minMoveDuration;
     int maxDuration = line1->maxMoveDuration;
@@ -117,4 +151,20 @@ void GamePlayScreen::addLine() {
 void GamePlayScreen::removeLine(CCNode *pSender) {
     lineArray->removeObject(pSender);
     pSender->removeFromParentAndCleanup(true);
+}
+
+/* 
+ * Handle event when click on control button.
+ */
+void GamePlayScreen::controlButtonCallback(cocos2d::Ref *pSender) {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    if (pSender->_ID == btnUpArrow->_ID) {
+        float positionTop = visibleSize.height * 7 / 10;
+        if (iconPig->getPosition().y >= positionTop) return;
+        iconPig->setPosition(iconPig->getPosition().x, iconPig->getPosition().y + visibleSize.height / 5);
+    } else if (pSender->_ID == btnDownArrow->_ID) {
+        float positionBottom = visibleSize.height * 3 / 10;
+        if (iconPig->getPosition().y <= positionBottom) return;
+        iconPig->setPosition(iconPig->getPosition().x, iconPig->getPosition().y - visibleSize.height / 5);
+    }
 }

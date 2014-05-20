@@ -97,12 +97,12 @@ void TutorialScreen::createTutorialScreen() {
     auto btnArrowDown = Sprite::create("btn_arrow_down_off.png");
     auto btnJump = Sprite::create("btn_jump_off.png");
     
-    btnArrowUp->setPosition(Point(origin.x + 10 + 47 / 2,
+    btnArrowUp->setPosition(Point(origin.x + 10 + 40 / 2,
                                   visibleSize.height - tutorialLabel->getContentSize().height * 2 - 20));
-    btnArrowUp->setScale(47 / btnArrowUp->getContentSize().width, 40 / btnArrowUp->getContentSize().height);
-    btnArrowDown->setPosition(Point(btnArrowUp->getPosition().x + 47, btnArrowUp->getPosition().y));
-    btnArrowDown->setScale(47 / btnArrowDown->getContentSize().width, 40 / btnArrowDown->getContentSize().height);
-    btnJump->setPosition(Point(btnArrowDown->getPosition().x + 47, btnArrowDown->getPosition().y));
+    btnArrowUp->setScale(40 / btnArrowUp->getContentSize().width, 40 / btnArrowUp->getContentSize().height);
+    btnArrowDown->setPosition(Point(btnArrowUp->getPosition().x + 40, btnArrowUp->getPosition().y));
+    btnArrowDown->setScale(40 / btnArrowDown->getContentSize().width, 40 / btnArrowDown->getContentSize().height);
+    btnJump->setPosition(Point(btnArrowDown->getPosition().x + 40, btnArrowDown->getPosition().y));
     btnJump->setScale(40 / btnJump->getContentSize().width, 40 / btnJump->getContentSize().height);
     
     auto controlLabel = CCLabelTTF::create("Use these buttons to control the pig", "Marker Felt", 25,

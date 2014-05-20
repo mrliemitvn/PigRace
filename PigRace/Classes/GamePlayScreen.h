@@ -13,12 +13,23 @@
 
 USING_NS_CC;
 
+enum {
+    firstGround = 1,
+    secondGround = 2,
+    thirdGround = 3,
+    fourthGround = 4
+};
+
 class GamePlayScreen : public Layer {
 public:
     /* Variables will be used. */
     Label *levelLabel;
     Sprite *bgGame;
     Sprite *bgRoad;
+    Sprite *iconPig;
+    MenuItemImage *btnJump;
+    MenuItemImage *btnUpArrow;
+    MenuItemImage *btnDownArrow;
     CCArray *lineArray;
     float roadTimer;
     float roadInterval = 1;
@@ -40,6 +51,9 @@ public:
     
     // Remove line on road.
     void removeLine(CCNode *pSender);
+    
+    // Handle event when click on control buttons.
+    void controlButtonCallback(Ref *pSender);
     
     // implement the "static create()" method manually
     CREATE_FUNC(GamePlayScreen);
