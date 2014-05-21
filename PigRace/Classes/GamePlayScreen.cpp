@@ -8,6 +8,8 @@
 
 #include "GamePlayScreen.h"
 #include "Line.h"
+#include "FarmProduce.h"
+#include "Consts.h"
 
 USING_NS_CC;
 
@@ -42,6 +44,9 @@ bool GamePlayScreen::init()
     lineArray = CCArray::create();
     lineArray->retain();
     
+    farmProduceArray = CCArray::create();
+    farmProduceArray->retain();
+    
     this->scheduleUpdate();
     
     return true;
@@ -56,7 +61,7 @@ void GamePlayScreen::createGamePlayScreen() {
     
     ///////////////////////////////////
     // add background.
-    //////////////////////////////////
+    ///////////////////////////////////
     
     // First background.
     bgGame = Sprite::create("bg_game_play.png");
@@ -75,6 +80,23 @@ void GamePlayScreen::createGamePlayScreen() {
     float roadHeight = visibleSize.height / 5 * 3;
     bgRoad->setScale(visibleSize.width / bgRoad->getContentSize().width, roadHeight / bgRoad->getContentSize().height);
     this->addChild(bgRoad, secondGround);
+    
+    ///////////////////////////////////
+    // Add level label.
+    // Add score label.
+    ///////////////////////////////////
+    levelLabel = Label::createWithSystemFont("Level 1", "Marker Felt", 25);
+    int currentLevel = UserDefault::getInstance()->getIntegerForKey(CURRENT_LEVEL, 1);
+    char levelString[100]={0};
+    sprintf(levelString,"Level %i", currentLevel);
+    levelLabel->setString(levelString);
+    levelLabel->setPosition(levelLabel->getContentSize().width / 2 + 10, visibleSize.height - 5 - levelLabel->getContentSize().height / 2);
+    
+    coinDisplay = Label::createWithSystemFont("Coin: 0", "Marker Felt", 25);
+    coinDisplay->setPosition(Point(origin.x + 10 + 25 / 2, levelLabel->getPositionY() - 25));
+    
+    this->addChild(levelLabel, secondGround);
+    this->addChild(coinDisplay, secondGround);
     
     //////////////////////////////////
     // Add control buttons.
@@ -108,12 +130,42 @@ void GamePlayScreen::createGamePlayScreen() {
 }
 
 void GamePlayScreen::update(float dt) {
-    roadTimer+=dt;
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    roadTimer += dt;
     if (roadTimer >= roadInterval)
     {
         roadTimer = 0;
         this->addLine();
     }
+    
+    farmProduceTimer += dt;
+    if (farmProduceTimer >= farmProduceInterval) {
+        farmProduceTimer = 0;
+        this->addFarmProduce();
+    }
+    
+    CCArray *farmProduceToDelete = CCArray::create();
+    for (int j=0; j < farmProduceArray->count(); j++)
+    {
+        FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->objectAtIndex(j);
+        if (iconPig->boundingBox().intersectsRect(farmProduce->boundingBox())) { //khi Pig chạm với FarmProduce
+            farmProduceToDelete->addObject(farmProduce);
+            score += farmProduce->coin;
+            char coinString[100]={0};
+            sprintf(coinString,"Coin: %i", score);
+            coinDisplay->setString(coinString);
+            coinDisplay->setPosition(coinDisplay->getContentSize().width / 2 + 10, coinDisplay->getPositionY());
+            break;
+        }
+    }
+    for (int j=0; j < farmProduceToDelete->count(); j++)
+    {
+        FarmProduce *farmProduce=(FarmProduce*) farmProduceToDelete->objectAtIndex(j);
+        farmProduce->setVisible(false);
+        farmProduceArray->fastRemoveObject(farmProduce);
+        farmProduce->removeFromParentAndCleanup(true);
+    }
+    farmProduceToDelete->retain();
 }
 
 void GamePlayScreen::addLine() {
@@ -141,7 +193,7 @@ void GamePlayScreen::addLine() {
     lineArray->addObject(line1);
     // Su chuyen dong cua giai phan cach
     CCAction *_actionMoveLine1=CCSequence::create(CCMoveTo::create(actualDuration, ccp(-visibleSize.width*0.05f, visibleSize.height / 5 * 3)),
-                                             CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::removeLine)) ,NULL);
+                                                  CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::removeLine)) ,NULL);
     CCAction *_actionMoveLine2=CCSequence::create(CCMoveTo::create(actualDuration, ccp(-visibleSize.width*0.05f, visibleSize.height / 5 * 2)),
                                                   CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::removeLine)) ,NULL);
     line1->runAction((CCAction*)_actionMoveLine1);
@@ -153,7 +205,53 @@ void GamePlayScreen::removeLine(CCNode *pSender) {
     pSender->removeFromParentAndCleanup(true);
 }
 
-/* 
+void GamePlayScreen::addFarmProduce() {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    FarmProduce *farmProduce = NULL;
+    // Thêm 2 đối tượng: carrot or strawberry
+    if (rand() % 2 == 0)
+    {
+        farmProduce = Carrot::create();
+        farmProduce->setTag(1);
+    } else {
+        farmProduce = Strawberry::create();
+        farmProduce->setTag(3);
+    }
+    
+    // Xac dinh su xuat hien cua nong san tren 3 duong mot cach ngau nhien
+    int onRoad = rand() % 3;
+    switch (onRoad) {
+        case SECOND_ROAD:
+            farmProduce->setPosition(Point(visibleSize.width + farmProduce->getContentSize().width/2, visibleSize.height / 2));
+            break;
+        case THIRD_ROAD:
+            farmProduce->setPosition(Point(visibleSize.width + farmProduce->getContentSize().width/2, visibleSize.height * 7 / 10));
+            break;
+        default:
+            farmProduce->setPosition(Point(visibleSize.width + farmProduce->getContentSize().width/2, visibleSize.height * 3 / 10));
+            break;
+    }
+    
+    this->addChild(farmProduce, thirdGround);
+    
+    //Xac dinh toc do quai vat
+    int minDuration = farmProduce->minMoveDuration;
+    int maxDuration = farmProduce->maxMoveDuration;
+    int rangeDuration = maxDuration - minDuration;
+    int actualDuration = rangeDuration + minDuration;\
+    farmProduceArray->addObject(farmProduce);
+    //Su chuyen dong cua quai vat
+    CCAction *_actionMove = CCSequence::create(CCMoveTo::create(actualDuration, ccp(-visibleSize.width*0.05f, farmProduce->getPosition().y)),
+                                               CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::removeFarmProduce)) ,NULL);
+    farmProduce->runAction((CCAction*)_actionMove);
+}
+
+void GamePlayScreen::removeFarmProduce(CCNode *pSender) {
+    farmProduceArray->removeObject(pSender);
+    pSender->removeFromParentAndCleanup(true);
+}
+
+/*
  * Handle event when click on control button.
  */
 void GamePlayScreen::controlButtonCallback(cocos2d::Ref *pSender) {

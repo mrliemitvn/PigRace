@@ -24,6 +24,7 @@ class GamePlayScreen : public Layer {
 public:
     /* Variables will be used. */
     Label *levelLabel;
+    Label *coinDisplay;
     Sprite *bgGame;
     Sprite *bgRoad;
     Sprite *iconPig;
@@ -31,8 +32,12 @@ public:
     MenuItemImage *btnUpArrow;
     MenuItemImage *btnDownArrow;
     CCArray *lineArray;
+    CCArray *farmProduceArray;
+    int score;
     float roadTimer;
     float roadInterval = 1;
+    float farmProduceTimer;
+    float farmProduceInterval = 1;
     
     /* Methods will be used. */
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -51,6 +56,12 @@ public:
     
     // Remove line on road.
     void removeLine(CCNode *pSender);
+    
+    // Add farm produce on road.
+    void addFarmProduce();
+    
+    // Remove farm produce on road.
+    void removeFarmProduce(CCNode *pSender);
     
     // Handle event when click on control buttons.
     void controlButtonCallback(Ref *pSender);

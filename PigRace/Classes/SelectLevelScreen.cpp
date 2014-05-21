@@ -8,6 +8,7 @@
 
 #include "SelectLevelScreen.h"
 #include "GamePlayScreen.h"
+#include "Consts.h"
 
 USING_NS_CC;
 
@@ -110,7 +111,7 @@ void SelectLevelScreen::createLevelButtons() {
     float btnLevelHeight = bgListMenuHeight / 5;
     Label *labelArray[10];
     for (int i = 0; i < 10; i++) {
-        menuArray[i] = MenuItemImage::create("btn_wooden_off.png", "btn_wooden_on.png",
+        menuArray[i] = MenuItemImage::create("btn_wooden_off.png", "btn_wooden_on.png", "btn_wooden_on.png",
                                              CC_CALLBACK_1(SelectLevelScreen::menuLevelCallback, this));
         menuArray[i]->setScale(btnLevelHeight * 725 / 242 / menuArray[i]->getContentSize().width,
                                btnLevelHeight / menuArray[i]->getContentSize().height);
@@ -131,6 +132,16 @@ void SelectLevelScreen::createLevelButtons() {
         labelArray[i]->setPosition(Point(menuArray[i]->getPosition().x, menuArray[i]->getPosition().y));
         this->addChild(labelArray[i], 3);
         menu->addChild(menuArray[i]);
+    }
+    
+    int currentLevel = UserDefault::getInstance()->getIntegerForKey(CURRENT_LEVEL, 0);
+    for (int i = 0; i > currentLevel; i++) {
+        menuArray[i]->setEnabled(true);
+        labelArray[i]->setColor(Color3B::WHITE);
+    }
+    for (int i = currentLevel + 1; i < 10; i++) {
+        menuArray[i]->setEnabled(false);
+        labelArray[i]->setColor(Color3B::GRAY);
     }
     this->addChild(menu, 2);
 }

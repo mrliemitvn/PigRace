@@ -87,6 +87,7 @@
 		8470B97C19232BFB00E14E53 /* HighScoreScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470B97B19232BFB00E14E53 /* HighScoreScreen.cpp */; };
 		8470B97F19233F9900E14E53 /* bg_tutorial.png in Resources */ = {isa = PBXBuildFile; fileRef = 8470B97E19233F9900E14E53 /* bg_tutorial.png */; };
 		8470B98719234C3A00E14E53 /* TutorialScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8470B98619234C3A00E14E53 /* TutorialScreen.cpp */; };
+		848DFEC2192C65D8005254F3 /* FarmProduce.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 848DFEC1192C65D8005254F3 /* FarmProduce.cpp */; };
 		84918CFD1920B4D300434E39 /* btn_highscore_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 84918CF51920B4D300434E39 /* btn_highscore_off.png */; };
 		84918CFE1920B4D300434E39 /* btn_highscore_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 84918CF61920B4D300434E39 /* btn_highscore_on.png */; };
 		84918CFF1920B4D300434E39 /* btn_setting_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 84918CF71920B4D300434E39 /* btn_setting_off.png */; };
@@ -330,6 +331,8 @@
 		8470B97E19233F9900E14E53 /* bg_tutorial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_tutorial.png; sourceTree = "<group>"; };
 		8470B98319234C2300E14E53 /* TutorialScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TutorialScreen.h; path = ../Classes/TutorialScreen.h; sourceTree = "<group>"; };
 		8470B98619234C3A00E14E53 /* TutorialScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TutorialScreen.cpp; path = ../Classes/TutorialScreen.cpp; sourceTree = "<group>"; };
+		848DFEBE192C6402005254F3 /* FarmProduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FarmProduce.h; path = ../Classes/FarmProduce.h; sourceTree = "<group>"; };
+		848DFEC1192C65D8005254F3 /* FarmProduce.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FarmProduce.cpp; path = ../Classes/FarmProduce.cpp; sourceTree = "<group>"; };
 		84918CF51920B4D300434E39 /* btn_highscore_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_highscore_off.png; sourceTree = "<group>"; };
 		84918CF61920B4D300434E39 /* btn_highscore_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_highscore_on.png; sourceTree = "<group>"; };
 		84918CF71920B4D300434E39 /* btn_setting_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_setting_off.png; sourceTree = "<group>"; };
@@ -439,6 +442,8 @@
 				84D9A6CE1925ECF300B6637E /* GamePlayScreen.cpp */,
 				84D9A6D11925FCEB00B6637E /* Line.h */,
 				84D9A6D21925FCF800B6637E /* Line.cpp */,
+				848DFEBE192C6402005254F3 /* FarmProduce.h */,
+				848DFEC1192C65D8005254F3 /* FarmProduce.cpp */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -837,6 +842,7 @@
 				84D9A6CF1925ECF300B6637E /* GamePlayScreen.cpp in Sources */,
 				8470B97C19232BFB00E14E53 /* HighScoreScreen.cpp in Sources */,
 				84D9A6D31925FCF800B6637E /* Line.cpp in Sources */,
+				848DFEC2192C65D8005254F3 /* FarmProduce.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				84154BAD1921D59100BA8C65 /* SettingScreen.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
