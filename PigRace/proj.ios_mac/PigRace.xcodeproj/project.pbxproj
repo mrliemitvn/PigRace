@@ -102,6 +102,8 @@
 		84D9A6CA1925EC7800B6637E /* icon_line.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D9A6C71925EC7800B6637E /* icon_line.png */; };
 		84D9A6CF1925ECF300B6637E /* GamePlayScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84D9A6CE1925ECF300B6637E /* GamePlayScreen.cpp */; };
 		84D9A6D31925FCF800B6637E /* Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84D9A6D21925FCF800B6637E /* Line.cpp */; };
+		84F1139D192D9CE9007A2FA2 /* Obstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F1139C192D9CE9007A2FA2 /* Obstacle.cpp */; };
+		84F1139F192DCD3E007A2FA2 /* icon_boom.png in Resources */ = {isa = PBXBuildFile; fileRef = 84F1139E192DCD3E007A2FA2 /* icon_boom.png */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -349,6 +351,9 @@
 		84D9A6CE1925ECF300B6637E /* GamePlayScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GamePlayScreen.cpp; path = ../Classes/GamePlayScreen.cpp; sourceTree = "<group>"; };
 		84D9A6D11925FCEB00B6637E /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Line.h; path = ../Classes/Line.h; sourceTree = "<group>"; };
 		84D9A6D21925FCF800B6637E /* Line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Line.cpp; path = ../Classes/Line.cpp; sourceTree = "<group>"; };
+		84F11399192D9C8E007A2FA2 /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Obstacle.h; path = ../Classes/Obstacle.h; sourceTree = "<group>"; };
+		84F1139C192D9CE9007A2FA2 /* Obstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Obstacle.cpp; path = ../Classes/Obstacle.cpp; sourceTree = "<group>"; };
+		84F1139E192DCD3E007A2FA2 /* icon_boom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_boom.png; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -444,6 +449,8 @@
 				84D9A6D21925FCF800B6637E /* Line.cpp */,
 				848DFEBE192C6402005254F3 /* FarmProduce.h */,
 				848DFEC1192C65D8005254F3 /* FarmProduce.cpp */,
+				84F11399192D9C8E007A2FA2 /* Obstacle.h */,
+				84F1139C192D9CE9007A2FA2 /* Obstacle.cpp */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -559,6 +566,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				84F1139E192DCD3E007A2FA2 /* icon_boom.png */,
 				841B1437192B183600518BE0 /* icon_pig.png */,
 				84D9A6C51925EC7800B6637E /* bg_game_play_road.png */,
 				84D9A6C61925EC7800B6637E /* bg_game_play.png */,
@@ -774,6 +782,7 @@
 				8460C519192452EB00328E0F /* btn_arrow_down_off.png in Resources */,
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				84918CFE1920B4D300434E39 /* btn_highscore_on.png in Resources */,
+				84F1139F192DCD3E007A2FA2 /* icon_boom.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
@@ -845,6 +854,7 @@
 				848DFEC2192C65D8005254F3 /* FarmProduce.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				84154BAD1921D59100BA8C65 /* SettingScreen.cpp in Sources */,
+				84F1139D192D9CE9007A2FA2 /* Obstacle.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,

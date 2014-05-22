@@ -17,7 +17,9 @@ enum {
     firstGround = 1,
     secondGround = 2,
     thirdGround = 3,
-    fourthGround = 4
+    fourthGround = 4,
+    fifthGround = 5,
+    sixthGround = 6
 };
 
 class GamePlayScreen : public Layer {
@@ -25,6 +27,7 @@ public:
     /* Variables will be used. */
     Label *levelLabel;
     Label *coinDisplay;
+    LayerColor *overlayColor;
     Sprite *bgGame;
     Sprite *bgRoad;
     Sprite *iconPig;
@@ -33,11 +36,12 @@ public:
     MenuItemImage *btnDownArrow;
     CCArray *lineArray;
     CCArray *farmProduceArray;
+    CCArray *obstacleArray;
     int score;
     float roadTimer;
     float roadInterval = 1;
-    float farmProduceTimer;
-    float farmProduceInterval = 1;
+    float farmProduceAndObstacleTimer;
+    float farmProduceAndObstacleInterval = 1;
     
     /* Methods will be used. */
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -51,6 +55,9 @@ public:
     // Create game play screen.
     void createGamePlayScreen();
     
+    // Stop game.
+    void stopGame(bool isEnd);
+    
     // Add line on road.
     void addLine();
     
@@ -62,6 +69,12 @@ public:
     
     // Remove farm produce on road.
     void removeFarmProduce(CCNode *pSender);
+    
+    // Add obstacle on road.
+    void addObstacle();
+    
+    // Remove obstacle on road.
+    void removeObstacle(CCNode *pSender);
     
     // Handle event when click on control buttons.
     void controlButtonCallback(Ref *pSender);

@@ -26,5 +26,6 @@
 #define CARROT_HIGH_SCORE_KEY "carrot_high_score_key"
 #define STRAWBERRY_HIGH_SCORE_KEY "strawberry_high_score_key"
 #define CURRENT_LEVEL "current level"
+#define NEXT_LEVEL "next_level"
 
 #endif

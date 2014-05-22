@@ -9,6 +9,7 @@
 #include "GamePlayScreen.h"
 #include "Line.h"
 #include "FarmProduce.h"
+#include "Obstacle.h"
 #include "Consts.h"
 
 USING_NS_CC;
@@ -47,6 +48,9 @@ bool GamePlayScreen::init()
     farmProduceArray = CCArray::create();
     farmProduceArray->retain();
     
+    obstacleArray = CCArray::create();
+    obstacleArray->retain();
+    
     this->scheduleUpdate();
     
     return true;
@@ -81,6 +85,11 @@ void GamePlayScreen::createGamePlayScreen() {
     bgRoad->setScale(visibleSize.width / bgRoad->getContentSize().width, roadHeight / bgRoad->getContentSize().height);
     this->addChild(bgRoad, secondGround);
     
+    // Add overlay color.
+    overlayColor = LayerColor::create(Color4B(0, 0, 0, 80));
+    overlayColor->setVisible(false);
+    this->addChild(overlayColor, sixthGround);
+    
     ///////////////////////////////////
     // Add level label.
     // Add score label.
@@ -93,7 +102,7 @@ void GamePlayScreen::createGamePlayScreen() {
     levelLabel->setPosition(levelLabel->getContentSize().width / 2 + 10, visibleSize.height - 5 - levelLabel->getContentSize().height / 2);
     
     coinDisplay = Label::createWithSystemFont("Coin: 0", "Marker Felt", 25);
-    coinDisplay->setPosition(Point(origin.x + 10 + 25 / 2, levelLabel->getPositionY() - 25));
+    coinDisplay->setPosition(Point(coinDisplay->getContentSize().width / 2 + 10, levelLabel->getPositionY() - 25));
     
     this->addChild(levelLabel, secondGround);
     this->addChild(coinDisplay, secondGround);
@@ -123,10 +132,39 @@ void GamePlayScreen::createGamePlayScreen() {
     // Add icon pig.
     //////////////////////////////////
     iconPig = Sprite::create("icon_pig.png");
-    float scale = 50 / iconPig->getContentSize().height;
+    float scale = (visibleSize.height / 5 - 10) / iconPig->getContentSize().height;
     iconPig->setScale(scale);
     iconPig->setPosition(Point(iconPig->getContentSize().width * scale / 2 + 5, visibleSize.height / 2));
     this->addChild(iconPig, fourthGround);
+    
+}
+
+void GamePlayScreen::stopGame(bool isEnd) {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    if (!isEnd) {
+        // Add boom icon.
+        auto *iconBoom = Sprite::create("icon_boom.png");
+        iconBoom->setScale(visibleSize.height / 5 / iconBoom->getContentSize().height / 2);
+        iconBoom->setPosition(iconPig->getPositionX() + iconPig->getContentSize().width / 2 * (visibleSize.height / 5 - 10) / iconPig->getContentSize().height,
+                              iconPig->getPositionY());
+        this->addChild(iconBoom, fifthGround);
+        
+        Action *actionScale = CCSequence::create(ScaleTo::create(0.125, visibleSize.height / 5 / iconBoom->getContentSize().height), NULL ,NULL);
+        iconBoom->runAction(actionScale);
+        
+        // Stop all moving items.
+        for (int i = 0; i < farmProduceArray->count(); i++) {
+            FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->getObjectAtIndex(i);
+            farmProduce->stopAllActions();
+        }
+        for (int i = 0; i < obstacleArray->count(); i++) {
+            ((Obstacle*) obstacleArray->getObjectAtIndex(i))->stopAllActions();
+        }
+        for (int i = 0; i < lineArray->count(); i++) {
+            ((Line*) lineArray->getObjectAtIndex(i))->stopAllActions();
+        }
+    }
+    this->unscheduleUpdate();
 }
 
 void GamePlayScreen::update(float dt) {
@@ -138,10 +176,14 @@ void GamePlayScreen::update(float dt) {
         this->addLine();
     }
     
-    farmProduceTimer += dt;
-    if (farmProduceTimer >= farmProduceInterval) {
-        farmProduceTimer = 0;
-        this->addFarmProduce();
+    farmProduceAndObstacleTimer += dt;
+    if (farmProduceAndObstacleTimer >= farmProduceAndObstacleInterval) {
+        farmProduceAndObstacleTimer = 0;
+        if (rand() % 3 == 0) {
+            this->addObstacle();
+        } else {
+            this->addFarmProduce();
+        }
     }
     
     CCArray *farmProduceToDelete = CCArray::create();
@@ -166,6 +208,14 @@ void GamePlayScreen::update(float dt) {
         farmProduce->removeFromParentAndCleanup(true);
     }
     farmProduceToDelete->retain();
+    
+    for (int i = 0; i < obstacleArray->count(); i++) {
+        Obstacle *obstacle = (Obstacle*) obstacleArray->objectAtIndex(i);
+        if (iconPig->boundingBox().intersectsRect(obstacle->boundingBox())) {
+            // Stop game.
+            stopGame(false);
+        }
+    }
 }
 
 void GamePlayScreen::addLine() {
@@ -191,10 +241,11 @@ void GamePlayScreen::addLine() {
     int actualDuration = rangeDuration + minDuration;
     
     lineArray->addObject(line1);
+    lineArray->addObject(line2);
     // Su chuyen dong cua giai phan cach
-    CCAction *_actionMoveLine1=CCSequence::create(CCMoveTo::create(actualDuration, ccp(-visibleSize.width*0.05f, visibleSize.height / 5 * 3)),
+    CCAction *_actionMoveLine1=CCSequence::create(CCMoveTo::create(actualDuration, ccp(-visibleSize.width / 2 + line1->getContentSize().width / 2, visibleSize.height / 5 * 3)),
                                                   CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::removeLine)) ,NULL);
-    CCAction *_actionMoveLine2=CCSequence::create(CCMoveTo::create(actualDuration, ccp(-visibleSize.width*0.05f, visibleSize.height / 5 * 2)),
+    CCAction *_actionMoveLine2=CCSequence::create(CCMoveTo::create(actualDuration, ccp(-visibleSize.width / 2 + line2->getContentSize().width / 2, visibleSize.height / 5 * 2)),
                                                   CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::removeLine)) ,NULL);
     line1->runAction((CCAction*)_actionMoveLine1);
     line2->runAction((CCAction*)_actionMoveLine2);
@@ -212,10 +263,8 @@ void GamePlayScreen::addFarmProduce() {
     if (rand() % 2 == 0)
     {
         farmProduce = Carrot::create();
-        farmProduce->setTag(1);
     } else {
         farmProduce = Strawberry::create();
-        farmProduce->setTag(3);
     }
     
     // Xac dinh su xuat hien cua nong san tren 3 duong mot cach ngau nhien
@@ -234,20 +283,61 @@ void GamePlayScreen::addFarmProduce() {
     
     this->addChild(farmProduce, thirdGround);
     
-    //Xac dinh toc do quai vat
+    //Xac dinh toc do
     int minDuration = farmProduce->minMoveDuration;
     int maxDuration = farmProduce->maxMoveDuration;
     int rangeDuration = maxDuration - minDuration;
-    int actualDuration = rangeDuration + minDuration;\
+    int actualDuration = rangeDuration + minDuration;
     farmProduceArray->addObject(farmProduce);
-    //Su chuyen dong cua quai vat
-    CCAction *_actionMove = CCSequence::create(CCMoveTo::create(actualDuration, ccp(-visibleSize.width*0.05f, farmProduce->getPosition().y)),
+    //Su chuyen dong
+    CCAction *_actionMove = CCSequence::create(CCMoveTo::create(actualDuration, ccp(-visibleSize.width / 2 + farmProduce->getContentSize().width / 2, farmProduce->getPosition().y)),
                                                CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::removeFarmProduce)) ,NULL);
     farmProduce->runAction((CCAction*)_actionMove);
 }
 
 void GamePlayScreen::removeFarmProduce(CCNode *pSender) {
     farmProduceArray->removeObject(pSender);
+    pSender->removeFromParentAndCleanup(true);
+}
+
+void GamePlayScreen::addObstacle() {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Obstacle *obstacle = NULL;
+    // Add obstacle on road.
+    obstacle = Stone::create();
+    obstacle->setScale((visibleSize.height / 5 - 10) / obstacle->getContentSize().height);
+    
+    // Set position of obstacle.
+    int onRoad = rand() % 3;
+    switch (onRoad) {
+        case SECOND_ROAD:
+            obstacle->setPosition(Point(visibleSize.width + obstacle->getContentSize().width / 2,
+                                        visibleSize.height / 2));
+            break;
+        case THIRD_ROAD:
+            obstacle->setPosition(Point(visibleSize.width + obstacle->getContentSize().width / 2,
+                                        visibleSize.height * 7 / 10));
+            break;
+        default:
+            obstacle->setPosition(Point(visibleSize.width + obstacle->getContentSize().width / 2,
+                                        visibleSize.height * 3 / 10));
+            break;
+    }
+    this->addChild(obstacle, thirdGround);
+    
+    //Xac dinh toc do
+    int minDuration = obstacle->minMoveDuration;
+    int maxDuration = obstacle->maxMoveDuration;
+    int rangeDuration = maxDuration - minDuration;
+    int actualDuration = rangeDuration + minDuration;
+    obstacleArray->addObject(obstacle);
+    //Su chuyen dong
+    CCAction *_actionMove = CCSequence::create(CCMoveTo::create(actualDuration,ccp(-visibleSize.width / 2 + obstacle->getContentSize().width / 2, obstacle->getPosition().y)), CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::removeObstacle)) ,NULL);
+    obstacle->runAction((CCAction*)_actionMove);
+}
+
+void GamePlayScreen::removeObstacle(CCNode *pSender) {
+    obstacleArray->removeObject(pSender);
     pSender->removeFromParentAndCleanup(true);
 }
 
