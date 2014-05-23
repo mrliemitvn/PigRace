@@ -19,25 +19,36 @@ enum {
     thirdGround = 3,
     fourthGround = 4,
     fifthGround = 5,
-    sixthGround = 6
+    sixthGround = 6,
+    seventhGround = 7
 };
 
 class GamePlayScreen : public Layer {
 public:
     /* Variables will be used. */
     Label *levelLabel;
-    Label *coinDisplay;
+    Label *fruitDisplay;
+    Label *gameOverLabel;
+    Label *progressLabel;
+    Label *totalFruitLabel;
+    Label *totalCoinLabel;
+    Label *timeDisplayLabel;
     LayerColor *overlayColor;
     Sprite *bgGame;
     Sprite *bgRoad;
     Sprite *iconPig;
+    Sprite *iconBoom;
     MenuItemImage *btnJump;
     MenuItemImage *btnUpArrow;
     MenuItemImage *btnDownArrow;
+    MenuItemFont *okMenuLabel;
+    MenuItemFont *retryMenuLabel;
     CCArray *lineArray;
     CCArray *farmProduceArray;
     CCArray *obstacleArray;
+    bool isPlaying;
     int score;
+    int roundTime;
     float roadTimer;
     float roadInterval = 1;
     float farmProduceAndObstacleTimer;
@@ -57,6 +68,12 @@ public:
     
     // Stop game.
     void stopGame(bool isEnd);
+    
+    // Restart game.
+    void restartGame();
+    
+    // Show or hide game over items.
+    void showGameOverItems(bool show, bool isEndGame);
     
     // Add line on road.
     void addLine();
@@ -78,6 +95,12 @@ public:
     
     // Handle event when click on control buttons.
     void controlButtonCallback(Ref *pSender);
+    
+    // Handle event when click on menus.
+    void menuCallback(Ref *pSender);
+    
+    // Countdown time playing.
+    void countDownTimePlaying(float dt);
     
     // implement the "static create()" method manually
     CREATE_FUNC(GamePlayScreen);

@@ -19,6 +19,10 @@
 #define SECOND_ROAD 1
 #define THIRD_ROAD 2
 
+// Game value.
+#define ROUND_TIME 60
+#define ROUND_COIN 3000
+
 // Key setting.
 #define SOUND_EFFECT_KEY "sound_effect_key"
 #define GAME_MUSIC_KEY "game_music_key"

@@ -42,6 +42,8 @@ bool GamePlayScreen::init()
     // Create game play screen.
     createGamePlayScreen();
     
+    isPlaying = false;
+    
     lineArray = CCArray::create();
     lineArray->retain();
     
@@ -51,7 +53,7 @@ bool GamePlayScreen::init()
     obstacleArray = CCArray::create();
     obstacleArray->retain();
     
-    this->scheduleUpdate();
+    restartGame();
     
     return true;
 }
@@ -85,14 +87,10 @@ void GamePlayScreen::createGamePlayScreen() {
     bgRoad->setScale(visibleSize.width / bgRoad->getContentSize().width, roadHeight / bgRoad->getContentSize().height);
     this->addChild(bgRoad, secondGround);
     
-    // Add overlay color.
-    overlayColor = LayerColor::create(Color4B(0, 0, 0, 80));
-    overlayColor->setVisible(false);
-    this->addChild(overlayColor, sixthGround);
-    
     ///////////////////////////////////
     // Add level label.
-    // Add score label.
+    // Add fruit label.
+    // Add time display label.
     ///////////////////////////////////
     levelLabel = Label::createWithSystemFont("Level 1", "Marker Felt", 25);
     int currentLevel = UserDefault::getInstance()->getIntegerForKey(CURRENT_LEVEL, 1);
@@ -101,15 +99,24 @@ void GamePlayScreen::createGamePlayScreen() {
     levelLabel->setString(levelString);
     levelLabel->setPosition(levelLabel->getContentSize().width / 2 + 10, visibleSize.height - 5 - levelLabel->getContentSize().height / 2);
     
-    coinDisplay = Label::createWithSystemFont("Coin: 0", "Marker Felt", 25);
-    coinDisplay->setPosition(Point(coinDisplay->getContentSize().width / 2 + 10, levelLabel->getPositionY() - 25));
+    fruitDisplay = Label::createWithSystemFont("Fruit: 0", "Marker Felt", 25);
+    fruitDisplay->setPosition(Point(fruitDisplay->getContentSize().width / 2 + 10, levelLabel->getPositionY() - 25));
+    
+    timeDisplayLabel = Label::createWithSystemFont("", "Marker Felt", 25);
+    char timeString[100]={0};
+    sprintf(timeString,"%i", ROUND_TIME);
+    timeDisplayLabel->setString(timeString);
+    timeDisplayLabel->setPosition(visibleSize.width - timeDisplayLabel->getContentSize().width / 2 - 10,
+                                  visibleSize.height * 9 / 10);
     
     this->addChild(levelLabel, secondGround);
-    this->addChild(coinDisplay, secondGround);
+    this->addChild(fruitDisplay, secondGround);
+    this->addChild(timeDisplayLabel, secondGround);
     
     //////////////////////////////////
     // Add control buttons.
     //////////////////////////////////
+    
     // Jump button.
     btnJump = MenuItemImage::create("btn_jump_off.png", "btn_jump_on.png", CC_CALLBACK_1(GamePlayScreen::controlButtonCallback, this));
     btnJump->setScale(40 / btnJump->getContentSize().width);
@@ -124,9 +131,9 @@ void GamePlayScreen::createGamePlayScreen() {
     btnUpArrow->setPosition(Point(btnDownArrow->getPosition().x - 40 - 5, visibleSize.height / 10));
     
     // create menu, it's an autorelease object
-    Menu *menu = Menu::create(btnJump, btnUpArrow, btnDownArrow, NULL);
-    menu->setPosition(Point::ZERO);
-    this->addChild(menu, thirdGround);
+    Menu *menuControlButton = Menu::create(btnJump, btnUpArrow, btnDownArrow, NULL);
+    menuControlButton->setPosition(Point::ZERO);
+    this->addChild(menuControlButton, thirdGround);
     
     //////////////////////////////////
     // Add icon pig.
@@ -137,34 +144,151 @@ void GamePlayScreen::createGamePlayScreen() {
     iconPig->setPosition(Point(iconPig->getContentSize().width * scale / 2 + 5, visibleSize.height / 2));
     this->addChild(iconPig, fourthGround);
     
+    /////////////////////////////////
+    // Game over items.
+    /////////////////////////////////
+    
+    // Add boom icon.
+    iconBoom = Sprite::create("icon_boom.png");
+    this->addChild(iconBoom, fifthGround);
+    
+    // Add overlay color.
+    overlayColor = LayerColor::create(Color4B(0, 0, 0, 80));
+    overlayColor->setVisible(false);
+    this->addChild(overlayColor, sixthGround);
+    
+    // Game over title
+    gameOverLabel = Label::createWithSystemFont("Game Over", "Marker Felt", 60);
+    gameOverLabel->setColor(Color3B::WHITE);
+    gameOverLabel->setPosition(Point(origin.x + visibleSize.width/2,
+                                    origin.y + visibleSize.height - gameOverLabel->getContentSize().height));
+    this->addChild(gameOverLabel, seventhGround);
+    
+    // Progress label.
+    progressLabel = Label::createWithSystemFont("Progress:", "Marker Felt", 25);
+    progressLabel->setColor(Color3B::WHITE);
+    progressLabel->setPosition(origin.x + visibleSize.width / 2,
+                               gameOverLabel->getPositionY() - gameOverLabel->getContentSize().height);
+    this->addChild(progressLabel, seventhGround);
+    
+    // Total fruits.
+    totalFruitLabel = Label::createWithSystemFont("Fruit:", "Marker Felt", 25);
+    totalFruitLabel->setColor(Color3B::WHITE);
+    totalFruitLabel->setPosition(origin.x + visibleSize.width / 2,
+                                 progressLabel->getPositionY() - progressLabel->getContentSize().height);
+    this->addChild(totalFruitLabel, seventhGround);
+    
+    // Total coins.
+    totalCoinLabel = Label::createWithSystemFont("Total:", "Marker Felt", 25);
+    totalCoinLabel->setColor(Color3B::WHITE);
+    totalCoinLabel->setPosition(origin.x + visibleSize.width / 2,
+                                totalFruitLabel->getPositionY() - totalFruitLabel->getContentSize().height);
+    this->addChild(totalCoinLabel, seventhGround);
+    
+    // Retry menu.
+    retryMenuLabel = MenuItemFont::create("Retry", CC_CALLBACK_1(GamePlayScreen::menuCallback, this));
+    retryMenuLabel->setColor(Color3B::WHITE);
+    retryMenuLabel->setFontName("Marker Felt");
+    retryMenuLabel->setFontSize(30);
+    retryMenuLabel->setPosition(visibleSize.width / 2 - retryMenuLabel->getContentSize().width / 2 - 5,
+                                totalCoinLabel->getPositionY() - retryMenuLabel->getContentSize().height);
+    
+    // Ok menu.
+    okMenuLabel = MenuItemFont::create("Ok", CC_CALLBACK_1(GamePlayScreen::menuCallback, this));
+    okMenuLabel->setColor(Color3B::WHITE);
+    okMenuLabel->setFontName("Marker Felt");
+    okMenuLabel->setFontSize(30);
+    okMenuLabel->setPosition(visibleSize.width / 2 + retryMenuLabel->getContentSize().width / 2 + 5,
+                             retryMenuLabel->getPositionY());
+    
+    // create menu, it's an autorelease object
+    Menu *menuLabel = Menu::create(retryMenuLabel, okMenuLabel, NULL);
+    menuLabel->setPosition(Point::ZERO);
+    this->addChild(menuLabel, seventhGround);
+    
+    // Hide game over items.
+    showGameOverItems(false, false);
 }
 
 void GamePlayScreen::stopGame(bool isEnd) {
+    isPlaying = false;
     Size visibleSize = Director::getInstance()->getVisibleSize();
     if (!isEnd) {
-        // Add boom icon.
-        auto *iconBoom = Sprite::create("icon_boom.png");
+        // Show boom icon.
         iconBoom->setScale(visibleSize.height / 5 / iconBoom->getContentSize().height / 2);
         iconBoom->setPosition(iconPig->getPositionX() + iconPig->getContentSize().width / 2 * (visibleSize.height / 5 - 10) / iconPig->getContentSize().height,
                               iconPig->getPositionY());
-        this->addChild(iconBoom, fifthGround);
         
         Action *actionScale = CCSequence::create(ScaleTo::create(0.125, visibleSize.height / 5 / iconBoom->getContentSize().height), NULL ,NULL);
         iconBoom->runAction(actionScale);
-        
-        // Stop all moving items.
-        for (int i = 0; i < farmProduceArray->count(); i++) {
-            FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->getObjectAtIndex(i);
-            farmProduce->stopAllActions();
-        }
-        for (int i = 0; i < obstacleArray->count(); i++) {
-            ((Obstacle*) obstacleArray->getObjectAtIndex(i))->stopAllActions();
-        }
-        for (int i = 0; i < lineArray->count(); i++) {
-            ((Line*) lineArray->getObjectAtIndex(i))->stopAllActions();
-        }
+    }
+    
+    // Show game over items.
+    showGameOverItems(true, isEnd);
+    
+    // Stop all moving items.
+    for (int i = 0; i < farmProduceArray->count(); i++) {
+        FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->getObjectAtIndex(i);
+        farmProduce->stopAllActions();
+    }
+    for (int i = 0; i < obstacleArray->count(); i++) {
+        ((Obstacle*) obstacleArray->getObjectAtIndex(i))->stopAllActions();
+    }
+    for (int i = 0; i < lineArray->count(); i++) {
+        ((Line*) lineArray->getObjectAtIndex(i))->stopAllActions();
     }
     this->unscheduleUpdate();
+    this->unschedule(schedule_selector(GamePlayScreen::countDownTimePlaying));
+}
+
+void GamePlayScreen::restartGame() {
+    score = 0;
+    roundTime = ROUND_TIME;
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    float scale = (visibleSize.height / 5 - 10) / iconPig->getContentSize().height;
+    iconPig->setPosition(Point(iconPig->getContentSize().width * scale / 2 + 5, visibleSize.height / 2));
+    fruitDisplay->setString("Fruit: 0");
+    while (farmProduceArray->count() > 0) {
+        FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->getObjectAtIndex(0);
+        removeFarmProduce(farmProduce);
+    }
+    while (lineArray->count() > 0) {
+        Line *line = (Line*) lineArray->getObjectAtIndex(0);
+        removeLine(line);
+    }
+    while (obstacleArray->count() > 0) {
+        Obstacle *obstacle = (Obstacle*) obstacleArray->getObjectAtIndex(0);
+        removeObstacle(obstacle);
+    }
+    
+    isPlaying = true;
+    this->scheduleUpdate();
+    this->schedule(schedule_selector(GamePlayScreen::countDownTimePlaying), 1.0f);
+}
+
+void GamePlayScreen::showGameOverItems(bool show, bool isEndGame) {
+    if (show) {
+        char coinString[100]={0};
+        sprintf(coinString,"Fruit: %i", score);
+        totalFruitLabel->setString(coinString);
+        
+        if (isEndGame) {
+            gameOverLabel->setString("Finish");
+        } else {
+            gameOverLabel->setString("Game Over");
+            iconBoom->setVisible(true);
+        }
+    } else {
+        iconBoom->setVisible(false);
+    }
+    
+    overlayColor->setVisible(show);
+    gameOverLabel->setVisible(show);
+    progressLabel->setVisible(show);
+    totalFruitLabel->setVisible(show);
+    totalCoinLabel->setVisible(show);
+    retryMenuLabel->setVisible(show);
+    okMenuLabel->setVisible(show);
 }
 
 void GamePlayScreen::update(float dt) {
@@ -194,9 +318,9 @@ void GamePlayScreen::update(float dt) {
             farmProduceToDelete->addObject(farmProduce);
             score += farmProduce->coin;
             char coinString[100]={0};
-            sprintf(coinString,"Coin: %i", score);
-            coinDisplay->setString(coinString);
-            coinDisplay->setPosition(coinDisplay->getContentSize().width / 2 + 10, coinDisplay->getPositionY());
+            sprintf(coinString,"Fruit: %i", score);
+            fruitDisplay->setString(coinString);
+            fruitDisplay->setPosition(fruitDisplay->getContentSize().width / 2 + 10, fruitDisplay->getPositionY());
             break;
         }
     }
@@ -345,6 +469,7 @@ void GamePlayScreen::removeObstacle(CCNode *pSender) {
  * Handle event when click on control button.
  */
 void GamePlayScreen::controlButtonCallback(cocos2d::Ref *pSender) {
+    if (!isPlaying) return;
     Size visibleSize = Director::getInstance()->getVisibleSize();
     if (pSender->_ID == btnUpArrow->_ID) {
         float positionTop = visibleSize.height * 7 / 10;
@@ -354,5 +479,31 @@ void GamePlayScreen::controlButtonCallback(cocos2d::Ref *pSender) {
         float positionBottom = visibleSize.height * 3 / 10;
         if (iconPig->getPosition().y <= positionBottom) return;
         iconPig->setPosition(iconPig->getPosition().x, iconPig->getPosition().y - visibleSize.height / 5);
+    }
+}
+
+/*
+ * Handle event when click on menus.
+ */
+void GamePlayScreen::menuCallback(cocos2d::Ref *pSender) {
+    if (pSender->_ID == okMenuLabel->_ID) {
+        Director::getInstance()->popScene();
+    } else if (pSender->_ID == retryMenuLabel->_ID) {
+        showGameOverItems(false, false);
+        restartGame();
+    }
+}
+
+void GamePlayScreen::countDownTimePlaying(float dt) {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    roundTime--;
+    char timeString[100]={0};
+    sprintf(timeString,"%i", roundTime);
+    timeDisplayLabel->setString(timeString);
+    timeDisplayLabel->setPosition(visibleSize.width - timeDisplayLabel->getContentSize().width / 2 - 10,
+                                  visibleSize.height * 9 / 10);
+    if (roundTime == 0) {
+        stopGame(true);
+        return;
     }
 }
