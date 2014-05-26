@@ -35,9 +35,9 @@ bool GamePlayScreen::init()
     //////////////////////////////
     // Super init first
     if ( !Layer::init() )
-    {
+     {
         return false;
-    }
+     }
     
     // Create game play screen.
     createGamePlayScreen();
@@ -62,6 +62,9 @@ bool GamePlayScreen::init()
  * Create game play screen.
  */
 void GamePlayScreen::createGamePlayScreen() {
+    currentLevel = UserDefault::getInstance()->getIntegerForKey(CURRENT_LEVEL, 1);
+    if (currentLevel == 2) obstacleInterval = 0.08;
+    if (currentLevel == 10) farmProduceAndObstacleInterval = 0.5;
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
     
@@ -93,7 +96,6 @@ void GamePlayScreen::createGamePlayScreen() {
     // Add time display label.
     ///////////////////////////////////
     levelLabel = Label::createWithSystemFont("Level 1", "Marker Felt", 25);
-    int currentLevel = UserDefault::getInstance()->getIntegerForKey(CURRENT_LEVEL, 1);
     char levelString[100]={0};
     sprintf(levelString,"Level %i", currentLevel);
     levelLabel->setString(levelString);
@@ -138,11 +140,24 @@ void GamePlayScreen::createGamePlayScreen() {
     //////////////////////////////////
     // Add icon pig.
     //////////////////////////////////
-    iconPig = Sprite::create("icon_pig.png");
+    iconPig = Sprite::create("icon_pig_frame0.png");
     float scale = (visibleSize.height / 5 - 10) / iconPig->getContentSize().height;
     iconPig->setScale(scale);
-    iconPig->setPosition(Point(iconPig->getContentSize().width * scale / 2 + 5, visibleSize.height / 2));
+    iconPig->setPosition(Point(iconPig->getContentSize().width * scale, visibleSize.height / 2));
     this->addChild(iconPig, fourthGround);
+    
+    Vector<SpriteFrame*> animFrames(15);
+    char str[100] = {0};
+    for(int i = 0; i < 12; i++)
+     {
+        sprintf(str, "icon_pig_frame%d.png",i);
+        auto frame = SpriteFrame::create(str,Rect(0,0,iconPig->getContentSize().width,iconPig->getContentSize().height)); //we assume that the sprites' dimentions are 40*40 rectangles.
+        animFrames.pushBack(frame);
+     }
+    
+    auto animation = Animation::createWithSpriteFrames(animFrames, 0.05f);
+    auto animate = Animate::create(animation);
+    animatePigRunning = RepeatForever::create(animate);
     
     /////////////////////////////////
     // Game over items.
@@ -161,7 +176,7 @@ void GamePlayScreen::createGamePlayScreen() {
     gameOverLabel = Label::createWithSystemFont("Game Over", "Marker Felt", 60);
     gameOverLabel->setColor(Color3B::WHITE);
     gameOverLabel->setPosition(Point(origin.x + visibleSize.width/2,
-                                    origin.y + visibleSize.height - gameOverLabel->getContentSize().height));
+                                     origin.y + visibleSize.height - gameOverLabel->getContentSize().height));
     this->addChild(gameOverLabel, seventhGround);
     
     // Progress label.
@@ -227,6 +242,7 @@ void GamePlayScreen::stopGame(bool isEnd) {
     showGameOverItems(true, isEnd);
     
     // Stop all moving items.
+    iconPig->stopAllActions();
     for (int i = 0; i < farmProduceArray->count(); i++) {
         FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->getObjectAtIndex(i);
         farmProduce->stopAllActions();
@@ -246,7 +262,9 @@ void GamePlayScreen::restartGame() {
     roundTime = ROUND_TIME;
     Size visibleSize = Director::getInstance()->getVisibleSize();
     float scale = (visibleSize.height / 5 - 10) / iconPig->getContentSize().height;
-    iconPig->setPosition(Point(iconPig->getContentSize().width * scale / 2 + 5, visibleSize.height / 2));
+    iconPig->setPosition(Point(iconPig->getContentSize().width * scale, visibleSize.height / 2));
+    animatePigRunning->retain();
+    iconPig->runAction(animatePigRunning);
     fruitDisplay->setString("Fruit: 0");
     while (farmProduceArray->count() > 0) {
         FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->getObjectAtIndex(0);
@@ -272,8 +290,20 @@ void GamePlayScreen::showGameOverItems(bool show, bool isEndGame) {
         sprintf(coinString,"Fruit: %i", score);
         totalFruitLabel->setString(coinString);
         
+        int currentProgress = ROUND_TIME - roundTime;
+        int progressPoint = currentProgress * ROUND_COIN / ROUND_TIME;
+        sprintf(coinString, "Progress: %i", progressPoint);
+        progressLabel->setString(coinString);
+        
+        int totalCoin = score + progressPoint;
+        sprintf(coinString, "Total: %i", totalCoin);
+        totalCoinLabel->setString(coinString);
+        
         if (isEndGame) {
             gameOverLabel->setString("Finish");
+            int nextLevel = currentLevel + 1;
+            if (nextLevel > 10) nextLevel = 10;
+            UserDefault::getInstance()->setIntegerForKey(NEXT_LEVEL, nextLevel);
         } else {
             gameOverLabel->setString("Game Over");
             iconBoom->setVisible(true);
@@ -295,16 +325,16 @@ void GamePlayScreen::update(float dt) {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     roadTimer += dt;
     if (roadTimer >= roadInterval)
-    {
+     {
         roadTimer = 0;
         this->addLine();
-    }
+     }
     
     farmProduceAndObstacleTimer += dt;
     if (farmProduceAndObstacleTimer >= farmProduceAndObstacleInterval) {
         farmProduceAndObstacleTimer = 0;
-        if (rand() % 3 == 0) {
-            this->addObstacle();
+        if (rand() % 2 == 0 && currentLevel > 1 && currentLevel < 10) {
+            this->addObstacle(dt);
         } else {
             this->addFarmProduce();
         }
@@ -312,7 +342,7 @@ void GamePlayScreen::update(float dt) {
     
     CCArray *farmProduceToDelete = CCArray::create();
     for (int j=0; j < farmProduceArray->count(); j++)
-    {
+     {
         FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->objectAtIndex(j);
         if (iconPig->boundingBox().intersectsRect(farmProduce->boundingBox())) { //khi Pig chạm với FarmProduce
             farmProduceToDelete->addObject(farmProduce);
@@ -323,21 +353,21 @@ void GamePlayScreen::update(float dt) {
             fruitDisplay->setPosition(fruitDisplay->getContentSize().width / 2 + 10, fruitDisplay->getPositionY());
             break;
         }
-    }
+     }
     for (int j=0; j < farmProduceToDelete->count(); j++)
-    {
+     {
         FarmProduce *farmProduce=(FarmProduce*) farmProduceToDelete->objectAtIndex(j);
         farmProduce->setVisible(false);
         farmProduceArray->fastRemoveObject(farmProduce);
         farmProduce->removeFromParentAndCleanup(true);
-    }
+     }
     farmProduceToDelete->retain();
     
     for (int i = 0; i < obstacleArray->count(); i++) {
         Obstacle *obstacle = (Obstacle*) obstacleArray->objectAtIndex(i);
         if (iconPig->boundingBox().intersectsRect(obstacle->boundingBox())) {
             // Stop game.
-            stopGame(false);
+            if (obstacle->getTag() != LOG_TYPE) stopGame(false);
         }
     }
 }
@@ -384,11 +414,14 @@ void GamePlayScreen::addFarmProduce() {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     FarmProduce *farmProduce = NULL;
     // Thêm 2 đối tượng: carrot or strawberry
-    if (rand() % 2 == 0)
-    {
-        farmProduce = Carrot::create();
-    } else {
+    int fruitType = rand() % 3;
+    if (fruitType == 0 && currentLevel >= 6) {
         farmProduce = Strawberry::create();
+    } else if (fruitType == 1 && currentLevel >= 8) {
+        farmProduce = Apple::create();
+        farmProduce->setScale((visibleSize.height / 5 - 10) / farmProduce->getContentSize().height);
+    } else {
+        farmProduce = Carrot::create();
     }
     
     // Xac dinh su xuat hien cua nong san tren 3 duong mot cach ngau nhien
@@ -424,28 +457,67 @@ void GamePlayScreen::removeFarmProduce(CCNode *pSender) {
     pSender->removeFromParentAndCleanup(true);
 }
 
-void GamePlayScreen::addObstacle() {
+void GamePlayScreen::addObstacle(float dt) {
+    obstacleTimer += dt;
+    if (obstacleTimer >= obstacleInterval) {
+        obstacleTimer = 0;
+    } else {
+        return;
+    }
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Obstacle *obstacle = NULL;
     // Add obstacle on road.
-    obstacle = Stone::create();
-    obstacle->setScale((visibleSize.height / 5 - 10) / obstacle->getContentSize().height);
+    int index = rand() % 4;
+    if (index == 0 && currentLevel >= 4) {
+        obstacle = Stone::create();
+    } else if (index == 1 && currentLevel >= 5) {
+        obstacle = Cow::create();
+    } else if (index == 2 && currentLevel >= 7) {
+        obstacle = Log::create();
+    } else if (index == 3 && currentLevel >= 9) {
+        obstacle = Pumpkin::create();
+    } else {
+        obstacle = HayStack::create();
+    }
     
-    // Set position of obstacle.
-    int onRoad = rand() % 3;
-    switch (onRoad) {
-        case SECOND_ROAD:
-            obstacle->setPosition(Point(visibleSize.width + obstacle->getContentSize().width / 2,
-                                        visibleSize.height / 2));
-            break;
-        case THIRD_ROAD:
-            obstacle->setPosition(Point(visibleSize.width + obstacle->getContentSize().width / 2,
-                                        visibleSize.height * 7 / 10));
-            break;
-        default:
-            obstacle->setPosition(Point(visibleSize.width + obstacle->getContentSize().width / 2,
-                                        visibleSize.height * 3 / 10));
-            break;
+    if (obstacle->getTag() == COW_TYPE) {
+        obstacle->setScale((visibleSize.height / 5 * 2 - 10) / obstacle->getContentSize().height);
+        
+        // Set position of obstacle.
+        int onRoad = rand() % 2;
+        switch (onRoad) {
+            case SECOND_ROAD:
+                obstacle->setPosition(visibleSize.width + obstacle->getContentSize().width / 2,
+                                      visibleSize.height / 5 * 3);
+                break;
+                
+            default:
+                obstacle->setPosition(visibleSize.width + obstacle->getContentSize().width / 2,
+                                      visibleSize.height / 5 * 2);
+                break;
+        }
+    } else if (obstacle->getTag() == LOG_TYPE) {
+        obstacle->setScale((visibleSize.height / 5 * 3 - 10) / obstacle->getContentSize().height);
+        obstacle->setPosition(visibleSize.width + obstacle->getContentSize().width / 2, visibleSize.height / 2);
+    } else {
+        obstacle->setScale((visibleSize.height / 5 - 10) / obstacle->getContentSize().height);
+        
+        // Set position of obstacle.
+        int onRoad = rand() % 3;
+        switch (onRoad) {
+            case SECOND_ROAD:
+                obstacle->setPosition(Point(visibleSize.width + obstacle->getContentSize().width / 2,
+                                            visibleSize.height / 2));
+                break;
+            case THIRD_ROAD:
+                obstacle->setPosition(Point(visibleSize.width + obstacle->getContentSize().width / 2,
+                                            visibleSize.height * 7 / 10));
+                break;
+            default:
+                obstacle->setPosition(Point(visibleSize.width + obstacle->getContentSize().width / 2,
+                                            visibleSize.height * 3 / 10));
+                break;
+        }
     }
     this->addChild(obstacle, thirdGround);
     

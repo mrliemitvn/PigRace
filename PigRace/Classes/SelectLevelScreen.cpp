@@ -131,15 +131,16 @@ void SelectLevelScreen::createLevelButtons() {
         }
         labelArray[i]->setPosition(Point(menuArray[i]->getPosition().x, menuArray[i]->getPosition().y));
         this->addChild(labelArray[i], 3);
+        menuArray[i]->setTag(i + 1);
         menu->addChild(menuArray[i]);
     }
     
-    int currentLevel = UserDefault::getInstance()->getIntegerForKey(CURRENT_LEVEL, 0);
-    for (int i = 0; i > currentLevel; i++) {
+    int nextLevel = UserDefault::getInstance()->getIntegerForKey(NEXT_LEVEL, 1);
+    for (int i = 0; i < nextLevel; i++) {
         menuArray[i]->setEnabled(true);
         labelArray[i]->setColor(Color3B::WHITE);
     }
-    for (int i = currentLevel + 1; i < 10; i++) {
+    for (int i = nextLevel; i < 10; i++) {
         menuArray[i]->setEnabled(false);
         labelArray[i]->setColor(Color3B::GRAY);
     }
@@ -157,6 +158,8 @@ void SelectLevelScreen::menuCancelCallback(cocos2d::Ref *pSender) {
  * Handle event when click each level button.
  */
 void SelectLevelScreen::menuLevelCallback(cocos2d::Ref *pSender) {
+    UserDefault::getInstance()->setIntegerForKey(CURRENT_LEVEL, ((MenuItemImage*) pSender)->getTag());
+    Director::getInstance()->popScene();
     Scene *gamePlayScreen = GamePlayScreen::createScene();
     Director::getInstance()->pushScene(gamePlayScreen);
 }

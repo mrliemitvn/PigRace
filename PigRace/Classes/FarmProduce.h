@@ -31,4 +31,9 @@ public:
     static Strawberry *create();
 };
 
+class Apple : public FarmProduce {
+public:
+    static Apple *create();
+};
+
 #endif

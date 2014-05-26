@@ -46,13 +46,17 @@ public:
     CCArray *lineArray;
     CCArray *farmProduceArray;
     CCArray *obstacleArray;
+    RepeatForever *animatePigRunning;
     bool isPlaying;
+    int currentLevel;
     int score;
     int roundTime;
     float roadTimer;
-    float roadInterval = 1;
+    float roadInterval = 0.8;
     float farmProduceAndObstacleTimer;
-    float farmProduceAndObstacleInterval = 1;
+    float farmProduceAndObstacleInterval = 0.8;
+    float obstacleTimer;
+    float obstacleInterval = 0.03;
     
     /* Methods will be used. */
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -88,7 +92,7 @@ public:
     void removeFarmProduce(CCNode *pSender);
     
     // Add obstacle on road.
-    void addObstacle();
+    void addObstacle(float dt);
     
     // Remove obstacle on road.
     void removeObstacle(CCNode *pSender);

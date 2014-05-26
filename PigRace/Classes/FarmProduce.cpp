@@ -25,8 +25,8 @@ Carrot *Carrot::create() {
     Carrot *carrot = new Carrot();
     if (carrot && carrot->initWithFile("icon_carrot.png")) {
         carrot->coin = 10;
-        carrot->minMoveDuration = 3;
-        carrot->maxMoveDuration = 5;
+        carrot->minMoveDuration = 2;
+        carrot->maxMoveDuration = 4;
         carrot->autorelease();
         return carrot;
     }
@@ -38,11 +38,24 @@ Strawberry *Strawberry::create() {
     Strawberry *strawberry = new Strawberry();
     if (strawberry && strawberry->initWithFile("icon_strawberry.png")) {
         strawberry->coin = 20;
-        strawberry->minMoveDuration = 3;
-        strawberry->maxMoveDuration = 5;
+        strawberry->minMoveDuration = 2;
+        strawberry->maxMoveDuration = 4;
         strawberry->autorelease();
         return strawberry;
     }
     CC_SAFE_DELETE(strawberry);
+    return NULL;
+}
+
+Apple *Apple::create() {
+    Apple *apple = new Apple();
+    if (apple && apple->initWithFile("icon_apple.png")) {
+        apple->coin = 30;
+        apple->minMoveDuration = 2;
+        apple->maxMoveDuration = 4;
+        apple->autorelease();
+        return apple;
+    }
+    CC_SAFE_DELETE(apple);
     return NULL;
 }
