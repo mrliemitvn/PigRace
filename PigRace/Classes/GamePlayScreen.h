@@ -48,6 +48,8 @@ public:
     CCArray *obstacleArray;
     RepeatForever *animatePigRunning;
     bool isPlaying;
+    bool isPlayGameMusic;
+    bool isPlaySoundEffect;
     int currentLevel;
     int score;
     int roundTime;

@@ -11,6 +11,7 @@
 #include "FarmProduce.h"
 #include "Obstacle.h"
 #include "Consts.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -43,6 +44,20 @@ bool GamePlayScreen::init()
     createGamePlayScreen();
     
     isPlaying = false;
+    
+    // Game music and sound effect.
+    int gameMusicState = UserDefault::getInstance()->getIntegerForKey(GAME_MUSIC_KEY, STATE_ON);
+    if (gameMusicState == STATE_ON) {
+        isPlayGameMusic = true;
+    } else {
+        isPlayGameMusic = false;
+    }
+    int soundEffectState = UserDefault::getInstance()->getIntegerForKey(SOUND_EFFECT_KEY, STATE_ON);
+    if (soundEffectState == STATE_ON) {
+        isPlaySoundEffect = true;
+    } else {
+        isPlaySoundEffect = false;
+    }
     
     lineArray = CCArray::create();
     lineArray->retain();
@@ -227,15 +242,24 @@ void GamePlayScreen::createGamePlayScreen() {
 
 void GamePlayScreen::stopGame(bool isEnd) {
     isPlaying = false;
+    CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
     Size visibleSize = Director::getInstance()->getVisibleSize();
     if (!isEnd) {
         // Show boom icon.
+        if (isPlaySoundEffect) {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("boom.mp3");
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("lost_game.mp3");
+        }
         iconBoom->setScale(visibleSize.height / 5 / iconBoom->getContentSize().height / 2);
         iconBoom->setPosition(iconPig->getPositionX() + iconPig->getContentSize().width / 2 * (visibleSize.height / 5 - 10) / iconPig->getContentSize().height,
                               iconPig->getPositionY());
         
         Action *actionScale = CCSequence::create(ScaleTo::create(0.125, visibleSize.height / 5 / iconBoom->getContentSize().height), NULL ,NULL);
         iconBoom->runAction(actionScale);
+    } else {
+        if (isPlaySoundEffect) {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("win_game.mp3");
+        }
     }
     
     // Show game over items.
@@ -280,6 +304,10 @@ void GamePlayScreen::restartGame() {
     }
     
     isPlaying = true;
+    if (isPlayGameMusic) {
+        CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
+        CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("game_music.mp3", true);
+    }
     this->scheduleUpdate();
     this->schedule(schedule_selector(GamePlayScreen::countDownTimePlaying), 1.0f);
 }
@@ -345,6 +373,9 @@ void GamePlayScreen::update(float dt) {
      {
         FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->objectAtIndex(j);
         if (iconPig->boundingBox().intersectsRect(farmProduce->boundingBox())) { //khi Pig chạm với FarmProduce
+            if (isPlaySoundEffect) {
+                CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("pig_snort.mp3");
+            }
             farmProduceToDelete->addObject(farmProduce);
             score += farmProduce->coin;
             char coinString[100]={0};
@@ -542,6 +573,13 @@ void GamePlayScreen::removeObstacle(CCNode *pSender) {
  */
 void GamePlayScreen::controlButtonCallback(cocos2d::Ref *pSender) {
     if (!isPlaying) return;
+    if (isPlaySoundEffect) {
+        if (pSender->_ID == btnJump->_ID) {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("jump.mp3");
+        } else {
+            CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("arrow_sound.mp3");
+        }
+    }
     Size visibleSize = Director::getInstance()->getVisibleSize();
     if (pSender->_ID == btnUpArrow->_ID) {
         float positionTop = visibleSize.height * 7 / 10;
