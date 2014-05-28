@@ -44,6 +44,7 @@ bool GamePlayScreen::init()
     createGamePlayScreen();
     
     isPlaying = false;
+    isJumping = false;
     
     // Game music and sound effect.
     int gameMusicState = UserDefault::getInstance()->getIntegerForKey(GAME_MUSIC_KEY, STATE_ON);
@@ -166,13 +167,20 @@ void GamePlayScreen::createGamePlayScreen() {
     for(int i = 0; i < 12; i++)
      {
         sprintf(str, "icon_pig_frame%d.png",i);
-        auto frame = SpriteFrame::create(str,Rect(0,0,iconPig->getContentSize().width,iconPig->getContentSize().height)); //we assume that the sprites' dimentions are 40*40 rectangles.
+        auto frame = SpriteFrame::create(str,Rect(0,0,iconPig->getContentSize().width,iconPig->getContentSize().height)); //we assume that the sprites' dimentions.
         animFrames.pushBack(frame);
      }
     
     auto animation = Animation::createWithSpriteFrames(animFrames, 0.05f);
     auto animate = Animate::create(animation);
     animatePigRunning = RepeatForever::create(animate);
+    
+    // Add score added label.
+    scoreAddedLabel = Label::createWithSystemFont("+10", "Marker Felt", 15);
+    scoreAddedLabel->setColor(Color3B::YELLOW);
+    scoreAddedLabel->setPosition(iconPig->getPositionX(), iconPig->getPositionY());
+    scoreAddedLabel->setVisible(false);
+    this->addChild(scoreAddedLabel, fifthGround);
     
     /////////////////////////////////
     // Game over items.
@@ -251,8 +259,7 @@ void GamePlayScreen::stopGame(bool isEnd) {
             CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("lost_game.mp3");
         }
         iconBoom->setScale(visibleSize.height / 5 / iconBoom->getContentSize().height / 2);
-        iconBoom->setPosition(iconPig->getPositionX() + iconPig->getContentSize().width / 2 * (visibleSize.height / 5 - 10) / iconPig->getContentSize().height,
-                              iconPig->getPositionY());
+        iconBoom->setPosition(iconPig->getPositionX(), iconPig->getPositionY());
         
         Action *actionScale = CCSequence::create(ScaleTo::create(0.125, visibleSize.height / 5 / iconBoom->getContentSize().height), NULL ,NULL);
         iconBoom->runAction(actionScale);
@@ -304,6 +311,7 @@ void GamePlayScreen::restartGame() {
     }
     
     isPlaying = true;
+    isJumping = false;
     if (isPlayGameMusic) {
         CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
         CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("game_music.mp3", true);
@@ -329,7 +337,9 @@ void GamePlayScreen::showGameOverItems(bool show, bool isEndGame) {
         
         if (isEndGame) {
             gameOverLabel->setString("Finish");
-            int nextLevel = currentLevel + 1;
+            retryMenuLabel->setString("Next level");
+            int nextLevel = UserDefault::getInstance()->getIntegerForKey(NEXT_LEVEL, 1);
+            if (nextLevel < currentLevel + 1) nextLevel = currentLevel + 1;
             if (nextLevel > 10) nextLevel = 10;
             UserDefault::getInstance()->setIntegerForKey(NEXT_LEVEL, nextLevel);
         } else {
@@ -372,7 +382,7 @@ void GamePlayScreen::update(float dt) {
     for (int j=0; j < farmProduceArray->count(); j++)
      {
         FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->objectAtIndex(j);
-        if (iconPig->boundingBox().intersectsRect(farmProduce->boundingBox())) { //khi Pig chạm với FarmProduce
+        if (iconPig->boundingBox().intersectsRect(farmProduce->boundingBox()) && !isJumping) { //khi Pig chạm với FarmProduce
             if (isPlaySoundEffect) {
                 CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("pig_snort.mp3");
             }
@@ -382,6 +392,17 @@ void GamePlayScreen::update(float dt) {
             sprintf(coinString,"Fruit: %i", score);
             fruitDisplay->setString(coinString);
             fruitDisplay->setPosition(fruitDisplay->getContentSize().width / 2 + 10, fruitDisplay->getPositionY());
+            
+            // Animate added score.
+            scoreAddedLabel->stopAllActions();
+            scoreAddedLabel->setScale(15 / scoreAddedLabel->getContentSize().height);
+            sprintf(coinString, "+%i", farmProduce->coin);
+            scoreAddedLabel->setString(coinString);
+            scoreAddedLabel->setPosition(iconPig->getPositionX(), iconPig->getPositionY());
+            scoreAddedLabel->setVisible(true);
+            Action *actionScale = CCSequence::create(ScaleTo::create(0.2, 2),
+                                                     CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::hideAddedScore)) ,NULL);
+            scoreAddedLabel->runAction(actionScale);
             break;
         }
      }
@@ -396,9 +417,9 @@ void GamePlayScreen::update(float dt) {
     
     for (int i = 0; i < obstacleArray->count(); i++) {
         Obstacle *obstacle = (Obstacle*) obstacleArray->objectAtIndex(i);
-        if (iconPig->boundingBox().intersectsRect(obstacle->boundingBox())) {
+        if (iconPig->boundingBox().intersectsRect(obstacle->boundingBox()) && !isJumping) {
             // Stop game.
-            if (obstacle->getTag() != LOG_TYPE) stopGame(false);
+            stopGame(false);
         }
     }
 }
@@ -572,7 +593,7 @@ void GamePlayScreen::removeObstacle(CCNode *pSender) {
  * Handle event when click on control button.
  */
 void GamePlayScreen::controlButtonCallback(cocos2d::Ref *pSender) {
-    if (!isPlaying) return;
+    if (!isPlaying || isJumping) return;
     if (isPlaySoundEffect) {
         if (pSender->_ID == btnJump->_ID) {
             CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("jump.mp3");
@@ -589,7 +610,13 @@ void GamePlayScreen::controlButtonCallback(cocos2d::Ref *pSender) {
         float positionBottom = visibleSize.height * 3 / 10;
         if (iconPig->getPosition().y <= positionBottom) return;
         iconPig->setPosition(iconPig->getPosition().x, iconPig->getPosition().y - visibleSize.height / 5);
+    } else if (pSender->_ID == btnJump->_ID) {
+        isJumping = true;
+        iconPig->stopAction(animatePigRunning);
+        Action *jumpUpAction = CCSequence::create(CCMoveTo::create(0.4, Point(iconPig->getPositionX(), iconPig->getPositionY() + visibleSize.height / 5)), CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::jumpUpCallback)), NULL);
+        iconPig->runAction(jumpUpAction);
     }
+    scoreAddedLabel->setPosition(iconPig->getPositionX(), iconPig->getPositionY());
 }
 
 /*
@@ -600,6 +627,9 @@ void GamePlayScreen::menuCallback(cocos2d::Ref *pSender) {
         Director::getInstance()->popScene();
     } else if (pSender->_ID == retryMenuLabel->_ID) {
         showGameOverItems(false, false);
+        if (((Label*) retryMenuLabel)->getString().compare("Next level")) {
+            currentLevel++;
+        }
         restartGame();
     }
 }
@@ -616,4 +646,21 @@ void GamePlayScreen::countDownTimePlaying(float dt) {
         stopGame(true);
         return;
     }
+}
+
+void GamePlayScreen::jumpUpCallback(CCNode *pSender) {
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Action *jumpDownAction = CCSequence::create(CCMoveTo::create(0.4, Point(iconPig->getPositionX(), iconPig->getPositionY() - visibleSize.height / 5)), CCCallFuncN::create(this, callfuncN_selector(GamePlayScreen::jumpDownCallback)), NULL);
+    jumpDownAction->retain();
+    iconPig->runAction(jumpDownAction);
+}
+
+void GamePlayScreen::jumpDownCallback(CCNode *pSender) {
+    animatePigRunning->retain();
+    iconPig->runAction(animatePigRunning);
+    isJumping = false;
+}
+
+void GamePlayScreen::hideAddedScore(CCNode *pSender) {
+    scoreAddedLabel->setVisible(false);
 }

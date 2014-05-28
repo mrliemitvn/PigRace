@@ -33,6 +33,7 @@ public:
     Label *totalFruitLabel;
     Label *totalCoinLabel;
     Label *timeDisplayLabel;
+    Label *scoreAddedLabel;
     LayerColor *overlayColor;
     Sprite *bgGame;
     Sprite *bgRoad;
@@ -50,6 +51,7 @@ public:
     bool isPlaying;
     bool isPlayGameMusic;
     bool isPlaySoundEffect;
+    bool isJumping;
     int currentLevel;
     int score;
     int roundTime;
@@ -107,6 +109,15 @@ public:
     
     // Countdown time playing.
     void countDownTimePlaying(float dt);
+    
+    // Handle jump up event.
+    void jumpUpCallback(CCNode *pSender);
+    
+    // Handle jump down event.
+    void jumpDownCallback(CCNode *pSender);
+    
+    // Hide added score.
+    void hideAddedScore(CCNode *pSender);
     
     // implement the "static create()" method manually
     CREATE_FUNC(GamePlayScreen);
