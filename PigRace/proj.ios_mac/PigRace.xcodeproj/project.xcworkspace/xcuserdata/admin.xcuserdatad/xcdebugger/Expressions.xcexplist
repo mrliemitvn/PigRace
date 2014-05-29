@@ -3,10 +3,19 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "GamePlayScreen::addObstacle(float):GamePlayScreen.cpp">
+         contextName = "SelectLevelScreen::menuLevelCallback(cocos2d::Ref*):SelectLevelScreen.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "obstacleTimer">
+               value = "menuArray[0]-&gt;_ID">
+            </PersistentString>
+            <PersistentString
+               value = "((MenuItemImage*) pSender)-&gt;getTag()">
+            </PersistentString>
+            <PersistentString
+               value = "menuArray[0]">
+            </PersistentString>
+            <PersistentString
+               value = "pSender-&gt;_ID">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -19,36 +28,35 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "GamePlayScreen::menuCallback(cocos2d::Ref*):GamePlayScreen.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "((Label*) retryMenuLabel)-&gt;getString()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "SettingScreen::soundEffectToggleCallback(cocos2d::Ref*):SettingScreen.cpp">
          <PersistentStrings>
             <PersistentString
                value = "btnSoundEffectOff">
             </PersistentString>
             <PersistentString
-               value = "menuSelected-&gt;getTag()">
+               value = "btnSoundEffectOn">
             </PersistentString>
             <PersistentString
                value = "btnGameMusicOn-&gt;getTag()">
             </PersistentString>
             <PersistentString
-               value = "btnSoundEffectOn">
+               value = "menuSelected-&gt;getTag()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SelectLevelScreen::menuLevelCallback(cocos2d::Ref*):SelectLevelScreen.cpp">
+         contextName = "GamePlayScreen::addObstacle(float):GamePlayScreen.cpp">
          <PersistentStrings>
             <PersistentString
-               value = "menuArray[0]-&gt;_ID">
-            </PersistentString>
-            <PersistentString
-               value = "menuArray[0]">
-            </PersistentString>
-            <PersistentString
-               value = "((MenuItemImage*) pSender)-&gt;getTag()">
-            </PersistentString>
-            <PersistentString
-               value = "pSender-&gt;_ID">
+               value = "obstacleTimer">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

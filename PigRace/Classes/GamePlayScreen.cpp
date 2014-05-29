@@ -112,18 +112,12 @@ void GamePlayScreen::createGamePlayScreen() {
     // Add time display label.
     ///////////////////////////////////
     levelLabel = Label::createWithSystemFont("Level 1", "Marker Felt", 25);
-    char levelString[100]={0};
-    sprintf(levelString,"Level %i", currentLevel);
-    levelLabel->setString(levelString);
     levelLabel->setPosition(levelLabel->getContentSize().width / 2 + 10, visibleSize.height - 5 - levelLabel->getContentSize().height / 2);
     
     fruitDisplay = Label::createWithSystemFont("Fruit: 0", "Marker Felt", 25);
     fruitDisplay->setPosition(Point(fruitDisplay->getContentSize().width / 2 + 10, levelLabel->getPositionY() - 25));
     
-    timeDisplayLabel = Label::createWithSystemFont("", "Marker Felt", 25);
-    char timeString[100]={0};
-    sprintf(timeString,"%i", ROUND_TIME);
-    timeDisplayLabel->setString(timeString);
+    timeDisplayLabel = Label::createWithSystemFont("0", "Marker Felt", 25);
     timeDisplayLabel->setPosition(visibleSize.width - timeDisplayLabel->getContentSize().width / 2 - 10,
                                   visibleSize.height * 9 / 10);
     
@@ -185,6 +179,14 @@ void GamePlayScreen::createGamePlayScreen() {
     /////////////////////////////////
     // Game over items.
     /////////////////////////////////
+    
+    // Finish flag.
+    iconFinish = Sprite::create("finished_flag.png");
+    float scaleIconFinish = visibleSize.height * 3 / 5 / iconFinish->getContentSize().height;
+    iconFinish->setScale(scaleIconFinish);
+    iconFinish->setPosition(visibleSize.width + scaleIconFinish * iconFinish->getContentSize().width / 2, visibleSize.height / 2);
+    iconFinish->setVisible(false);
+    this->addChild(iconFinish, secondGround);
     
     // Add boom icon.
     iconBoom = Sprite::create("icon_boom.png");
@@ -274,6 +276,7 @@ void GamePlayScreen::stopGame(bool isEnd) {
     
     // Stop all moving items.
     iconPig->stopAllActions();
+    iconFinish->stopAllActions();
     for (int i = 0; i < farmProduceArray->count(); i++) {
         FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->getObjectAtIndex(i);
         farmProduce->stopAllActions();
@@ -292,11 +295,21 @@ void GamePlayScreen::restartGame() {
     score = 0;
     roundTime = ROUND_TIME;
     Size visibleSize = Director::getInstance()->getVisibleSize();
+    iconFinish->setPosition(visibleSize.width + visibleSize.height * 3 / 5 / iconFinish->getContentSize().height * iconFinish->getContentSize().width / 2, visibleSize.height / 2);
+    iconFinish->setVisible(false);
     float scale = (visibleSize.height / 5 - 10) / iconPig->getContentSize().height;
     iconPig->setPosition(Point(iconPig->getContentSize().width * scale, visibleSize.height / 2));
     animatePigRunning->retain();
     iconPig->runAction(animatePigRunning);
+    char levelString[100]={0};
+    sprintf(levelString,"Level %i", currentLevel);
+    levelLabel->setString(levelString);
+    levelLabel->setPosition(levelLabel->getContentSize().width / 2 + 10, visibleSize.height - 5 - levelLabel->getContentSize().height / 2);
     fruitDisplay->setString("Fruit: 0");
+    fruitDisplay->setPosition(Point(fruitDisplay->getContentSize().width / 2 + 10, levelLabel->getPositionY() - 25));
+    char timeString[100]={0};
+    sprintf(timeString,"%i", ROUND_TIME);
+    timeDisplayLabel->setString(timeString);
     while (farmProduceArray->count() > 0) {
         FarmProduce *farmProduce = (FarmProduce*) farmProduceArray->getObjectAtIndex(0);
         removeFarmProduce(farmProduce);
@@ -337,7 +350,13 @@ void GamePlayScreen::showGameOverItems(bool show, bool isEndGame) {
         
         if (isEndGame) {
             gameOverLabel->setString("Finish");
-            retryMenuLabel->setString("Next level");
+            if (currentLevel == 10) {
+                retryMenuLabel->setString("Retry");
+                retryMenuLabel->setTag(STATE_OFF);
+            } else {
+                retryMenuLabel->setString("Next");
+                retryMenuLabel->setTag(STATE_ON);
+            }
             int nextLevel = UserDefault::getInstance()->getIntegerForKey(NEXT_LEVEL, 1);
             if (nextLevel < currentLevel + 1) nextLevel = currentLevel + 1;
             if (nextLevel > 10) nextLevel = 10;
@@ -345,6 +364,8 @@ void GamePlayScreen::showGameOverItems(bool show, bool isEndGame) {
         } else {
             gameOverLabel->setString("Game Over");
             iconBoom->setVisible(true);
+            retryMenuLabel->setString("Retry");
+            retryMenuLabel->setTag(STATE_OFF);
         }
     } else {
         iconBoom->setVisible(false);
@@ -422,6 +443,8 @@ void GamePlayScreen::update(float dt) {
             stopGame(false);
         }
     }
+    
+    if (iconFinish->boundingBox().intersectsRect(iconPig->boundingBox())) stopGame(true);
 }
 
 void GamePlayScreen::addLine() {
@@ -627,7 +650,7 @@ void GamePlayScreen::menuCallback(cocos2d::Ref *pSender) {
         Director::getInstance()->popScene();
     } else if (pSender->_ID == retryMenuLabel->_ID) {
         showGameOverItems(false, false);
-        if (((Label*) retryMenuLabel)->getString().compare("Next level")) {
+        if (((Label*) retryMenuLabel)->getTag() == STATE_ON) {
             currentLevel++;
         }
         restartGame();
@@ -637,13 +660,23 @@ void GamePlayScreen::menuCallback(cocos2d::Ref *pSender) {
 void GamePlayScreen::countDownTimePlaying(float dt) {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     roundTime--;
+    if (roundTime < 0) return;
     char timeString[100]={0};
     sprintf(timeString,"%i", roundTime);
     timeDisplayLabel->setString(timeString);
     timeDisplayLabel->setPosition(visibleSize.width - timeDisplayLabel->getContentSize().width / 2 - 10,
                                   visibleSize.height * 9 / 10);
     if (roundTime == 0) {
-        stopGame(true);
+        //Xac dinh toc do
+        // Min and Max duration are same as Line.
+        int minDuration = 2;
+        int maxDuration = 4;
+        int rangeDuration = maxDuration - minDuration;
+        int actualDuration = rangeDuration + minDuration;
+        //Su chuyen dong
+        CCAction *_actionMove = CCSequence::create(CCMoveTo::create(actualDuration,ccp(-visibleSize.width / 2 + iconFinish->getContentSize().width / 2 * visibleSize.height * 3 / 5 / iconFinish->getContentSize().height, iconFinish->getPositionY())), NULL ,NULL);
+        iconFinish->setVisible(true);
+        iconFinish->runAction((CCAction*)_actionMove);
         return;
     }
 }

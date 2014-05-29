@@ -39,6 +39,7 @@ public:
     Sprite *bgRoad;
     Sprite *iconPig;
     Sprite *iconBoom;
+    Sprite *iconFinish;
     MenuItemImage *btnJump;
     MenuItemImage *btnUpArrow;
     MenuItemImage *btnDownArrow;

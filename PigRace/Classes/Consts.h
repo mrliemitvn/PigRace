@@ -20,7 +20,7 @@
 #define THIRD_ROAD 2
 
 // Game value.
-#define ROUND_TIME 60
+#define ROUND_TIME 10
 #define ROUND_COIN 3000
 
 // Key setting.
