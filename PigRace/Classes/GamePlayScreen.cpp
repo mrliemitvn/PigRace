@@ -79,8 +79,6 @@ bool GamePlayScreen::init()
  */
 void GamePlayScreen::createGamePlayScreen() {
     currentLevel = UserDefault::getInstance()->getIntegerForKey(CURRENT_LEVEL, 1);
-    if (currentLevel == 2) obstacleInterval = 0.08;
-    if (currentLevel == 10) farmProduceAndObstacleInterval = 0.5;
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
     
@@ -131,16 +129,16 @@ void GamePlayScreen::createGamePlayScreen() {
     
     // Jump button.
     btnJump = MenuItemImage::create("btn_jump_off.png", "btn_jump_on.png", CC_CALLBACK_1(GamePlayScreen::controlButtonCallback, this));
-    btnJump->setScale(40 / btnJump->getContentSize().width);
-    btnJump->setPosition(Point(20 + 10, visibleSize.height / 10));
+    btnJump->setScale((visibleSize.height / 5 - 20) / btnJump->getContentSize().height);
+    btnJump->setPosition(Point((visibleSize.height / 5 - 20) / btnJump->getContentSize().height * btnJump->getContentSize().width / 2 + 10, visibleSize.height / 10));
     
     // Arrow buttons.
     btnUpArrow = MenuItemImage::create("btn_arrow_up_off.png", "btn_arrow_up_on.png", CC_CALLBACK_1(GamePlayScreen::controlButtonCallback, this));
     btnDownArrow = MenuItemImage::create("btn_arrow_down_off.png", "btn_arrow_down_on.png", CC_CALLBACK_1(GamePlayScreen::controlButtonCallback, this));
-    btnUpArrow->setScale(40 / btnUpArrow->getContentSize().width);
-    btnDownArrow->setScale(40 / btnDownArrow->getContentSize().width);
-    btnDownArrow->setPosition(Point(visibleSize.width - 20 - 10, visibleSize.height / 10));
-    btnUpArrow->setPosition(Point(btnDownArrow->getPosition().x - 40 - 5, visibleSize.height / 10));
+    btnUpArrow->setScale((visibleSize.height / 5 - 20) / btnUpArrow->getContentSize().height);
+    btnDownArrow->setScale((visibleSize.height / 5 - 20) / btnDownArrow->getContentSize().height);
+    btnDownArrow->setPosition(Point(visibleSize.width - 10 - (visibleSize.height / 5 - 20) / btnDownArrow->getContentSize().height * btnDownArrow->getContentSize().width / 2, visibleSize.height / 10));
+    btnUpArrow->setPosition(Point(btnDownArrow->getPosition().x - 10 - (visibleSize.height / 5 - 20) / btnUpArrow->getContentSize().height * btnUpArrow->getContentSize().width, visibleSize.height / 10));
     
     // create menu, it's an autorelease object
     Menu *menuControlButton = Menu::create(btnJump, btnUpArrow, btnDownArrow, NULL);
@@ -294,6 +292,16 @@ void GamePlayScreen::stopGame(bool isEnd) {
 void GamePlayScreen::restartGame() {
     score = 0;
     roundTime = ROUND_TIME;
+    if (currentLevel == 2) {
+        obstacleInterval = 0.08;
+    } else {
+        obstacleInterval = 0.03;
+    }
+    if (currentLevel == 10) {
+        farmProduceAndObstacleInterval = 0.5;
+    } else {
+        farmProduceAndObstacleInterval = 0.8;
+    }
     Size visibleSize = Director::getInstance()->getVisibleSize();
     iconFinish->setPosition(visibleSize.width + visibleSize.height * 3 / 5 / iconFinish->getContentSize().height * iconFinish->getContentSize().width / 2, visibleSize.height / 2);
     iconFinish->setVisible(false);
@@ -348,6 +356,16 @@ void GamePlayScreen::showGameOverItems(bool show, bool isEndGame) {
         sprintf(coinString, "Total: %i", totalCoin);
         totalCoinLabel->setString(coinString);
         
+        // Save high score.
+        int highScoreCoin = UserDefault::getInstance()->getIntegerForKey(COIN_HIGH_SCORE_KEY, 0);
+        if (highScoreCoin < totalCoin) {
+            UserDefault::getInstance()->setIntegerForKey(COIN_HIGH_SCORE_KEY, totalCoin);
+        }
+        int highScoreFruit = UserDefault::getInstance()->getIntegerForKey(FRUIT_HIGH_SCORE_KEY, 0);
+        if (highScoreFruit < score) {
+            UserDefault::getInstance()->setIntegerForKey(FRUIT_HIGH_SCORE_KEY, score);
+        }
+        
         if (isEndGame) {
             gameOverLabel->setString("Finish");
             if (currentLevel == 10) {
@@ -381,16 +399,15 @@ void GamePlayScreen::showGameOverItems(bool show, bool isEndGame) {
 }
 
 void GamePlayScreen::update(float dt) {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
     roadTimer += dt;
-    if (roadTimer >= roadInterval)
+    if (roadTimer >= roadInterval && !iconFinish->isVisible())
      {
         roadTimer = 0;
         this->addLine();
      }
     
     farmProduceAndObstacleTimer += dt;
-    if (farmProduceAndObstacleTimer >= farmProduceAndObstacleInterval) {
+    if (farmProduceAndObstacleTimer >= farmProduceAndObstacleInterval && !iconFinish->isVisible()) {
         farmProduceAndObstacleTimer = 0;
         if (rand() % 2 == 0 && currentLevel > 1 && currentLevel < 10) {
             this->addObstacle(dt);
@@ -660,7 +677,10 @@ void GamePlayScreen::menuCallback(cocos2d::Ref *pSender) {
 void GamePlayScreen::countDownTimePlaying(float dt) {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     roundTime--;
-    if (roundTime < 0) return;
+    if (roundTime < 0) {
+        roundTime = 0;
+        return;
+    }
     char timeString[100]={0};
     sprintf(timeString,"%i", roundTime);
     timeDisplayLabel->setString(timeString);

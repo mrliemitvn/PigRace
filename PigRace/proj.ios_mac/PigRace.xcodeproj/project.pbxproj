@@ -127,6 +127,7 @@
 		84D9A6CA1925EC7800B6637E /* icon_line.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D9A6C71925EC7800B6637E /* icon_line.png */; };
 		84D9A6CF1925ECF300B6637E /* GamePlayScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84D9A6CE1925ECF300B6637E /* GamePlayScreen.cpp */; };
 		84D9A6D31925FCF800B6637E /* Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84D9A6D21925FCF800B6637E /* Line.cpp */; };
+		84EE4D83193D67F80083F6E5 /* icon_fruit.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EE4D82193D67F80083F6E5 /* icon_fruit.png */; };
 		84F1139D192D9CE9007A2FA2 /* Obstacle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F1139C192D9CE9007A2FA2 /* Obstacle.cpp */; };
 		84F1139F192DCD3E007A2FA2 /* icon_boom.png in Resources */ = {isa = PBXBuildFile; fileRef = 84F1139E192DCD3E007A2FA2 /* icon_boom.png */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
@@ -401,6 +402,7 @@
 		84D9A6CE1925ECF300B6637E /* GamePlayScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GamePlayScreen.cpp; path = ../Classes/GamePlayScreen.cpp; sourceTree = "<group>"; };
 		84D9A6D11925FCEB00B6637E /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Line.h; path = ../Classes/Line.h; sourceTree = "<group>"; };
 		84D9A6D21925FCF800B6637E /* Line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Line.cpp; path = ../Classes/Line.cpp; sourceTree = "<group>"; };
+		84EE4D82193D67F80083F6E5 /* icon_fruit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_fruit.png; sourceTree = "<group>"; };
 		84F11399192D9C8E007A2FA2 /* Obstacle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Obstacle.h; path = ../Classes/Obstacle.h; sourceTree = "<group>"; };
 		84F1139C192D9CE9007A2FA2 /* Obstacle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Obstacle.cpp; path = ../Classes/Obstacle.cpp; sourceTree = "<group>"; };
 		84F1139E192DCD3E007A2FA2 /* icon_boom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_boom.png; sourceTree = "<group>"; };
@@ -616,6 +618,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				84EE4D82193D67F80083F6E5 /* icon_fruit.png */,
 				84C087511936C5EE00A11BD9 /* finished_flag.png */,
 				8425A49D193475EC0012224F /* lost_game.mp3 */,
 				8425A49B193469CD0012224F /* win_game.mp3 */,
@@ -915,6 +918,7 @@
 				84918D041920B4D300434E39 /* btn_tutorial_on.png in Resources */,
 				8474DA911933194700C60841 /* icon_apple.png in Resources */,
 				84154BB81921FA6500BA8C65 /* btn_game_music_on.png in Resources */,
+				84EE4D83193D67F80083F6E5 /* icon_fruit.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				8474DAA31933245500C60841 /* icon_pig_frame5.png in Resources */,
 				8474DAA51933245500C60841 /* icon_pig_frame7.png in Resources */,

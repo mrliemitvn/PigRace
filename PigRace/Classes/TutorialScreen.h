@@ -10,7 +10,6 @@
 #define PigRace_TutorialScreen_h
 
 #include "cocos2d.h"
-#include "cocos-ext.h"
 
 USING_NS_CC;
 
@@ -22,7 +21,6 @@ public:
     Label *tutorialLabel;
     Sprite *bgTutorialMenu;
     MenuItemImage *btnOk;
-//    ScrollView *scrollView;
     
     /* Methods will be used. */
     // there's no 'id' in cpp, so we recommend returning the class instance pointer

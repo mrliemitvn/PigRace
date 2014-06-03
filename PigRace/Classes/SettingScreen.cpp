@@ -52,6 +52,7 @@ void SettingScreen::createSettingScreen() {
     
     // add background.
     auto bgSetting = Sprite::create("bg.png");
+    bgSetting->setScale(visibleSize.width / bgSetting->getContentSize().width);
     
     // position the sprite on the center of the screen
     bgSetting->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));

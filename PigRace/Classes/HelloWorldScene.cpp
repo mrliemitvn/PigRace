@@ -46,6 +46,7 @@ void HelloWorld::createGameScreen() {
     
     // add background.
     auto sprite = Sprite::create("bg.png");
+    sprite->setScale(visibleSize.width / sprite->getContentSize().width);
     
     // position the sprite on the center of the screen
     sprite->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));

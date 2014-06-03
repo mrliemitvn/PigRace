@@ -51,6 +51,7 @@ void TutorialScreen::createTutorialScreen() {
     
     // add background.
     auto bgTutorial = Sprite::create("bg.png");
+    bgTutorial->setScale(visibleSize.width / bgTutorial->getContentSize().width);
     
     // position the sprite on the center of the screen
     bgTutorial->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));

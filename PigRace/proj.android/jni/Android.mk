@@ -8,7 +8,15 @@ LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
-                   ../../Classes/HelloWorldScene.cpp
+                   ../../Classes/HelloWorldScene.cpp \
+                   ../../Classes/SettingScreen.cpp \
+                   ../../Classes/HighScoreScreen.cpp \
+                   ../../Classes/TutorialScreen.cpp \
+                   ../../Classes/SelectLevelScreen.cpp \
+                   ../../Classes/GamePlayScreen.cpp \
+                   ../../Classes/Line.cpp \
+                   ../../Classes/FarmProduce.cpp \
+                   ../../Classes/Obstacle.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

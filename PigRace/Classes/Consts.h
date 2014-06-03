@@ -20,15 +20,14 @@
 #define THIRD_ROAD 2
 
 // Game value.
-#define ROUND_TIME 10
+#define ROUND_TIME 60
 #define ROUND_COIN 3000
 
 // Key setting.
 #define SOUND_EFFECT_KEY "sound_effect_key"
 #define GAME_MUSIC_KEY "game_music_key"
 #define COIN_HIGH_SCORE_KEY "coin_high_score_key"
-#define CARROT_HIGH_SCORE_KEY "carrot_high_score_key"
-#define STRAWBERRY_HIGH_SCORE_KEY "strawberry_high_score_key"
+#define FRUIT_HIGH_SCORE_KEY "fruit_high_score_key"
 #define CURRENT_LEVEL "current level"
 #define NEXT_LEVEL "next_level"
 

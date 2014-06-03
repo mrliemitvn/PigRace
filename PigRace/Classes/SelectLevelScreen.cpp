@@ -52,6 +52,7 @@ void SelectLevelScreen::createSelectLevelScreen() {
     
     // add background.
     auto bg = Sprite::create("bg.png");
+    bg->setScale(visibleSize.width / bg->getContentSize().width);
     
     // position the sprite on the center of the screen
     bg->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
@@ -107,7 +108,7 @@ void SelectLevelScreen::createLevelButtons() {
     menu->setPosition(Point::ZERO);
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
-    float bgListMenuHeight = visibleSize.height - menuCancel->getContentSize().height * 2 - selectLevelLabel->getContentSize().height * 2;
+    float bgListMenuHeight = visibleSize.height - menuCancel->getContentSize().height * 2 - selectLevelLabel->getContentSize().height * 4;
     float btnLevelHeight = bgListMenuHeight / 5;
     Label *labelArray[10];
     for (int i = 0; i < 10; i++) {
@@ -117,7 +118,7 @@ void SelectLevelScreen::createLevelButtons() {
                                btnLevelHeight / menuArray[i]->getContentSize().height);
         char health[100];
         sprintf(health,"Level %i", i + 1);
-        labelArray[i] = Label::createWithSystemFont("", "Marker Felt", btnLevelHeight - 10);
+        labelArray[i] = Label::createWithSystemFont("", "Marker Felt", btnLevelHeight * 2 / 3);
         labelArray[i]->setString(health);
         labelArray[i]->setColor(Color3B::WHITE);
         if (i == 0) {
