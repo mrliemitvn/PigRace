@@ -9,7 +9,7 @@ class HelloWorld : public cocos2d::Layer
 {
 public:
     /* Variables will be used. */
-    Label *gameLabel;
+    Sprite *gameLabel;
     Menu *menu;
     
     // there's no 'id' in cpp, so we recommend returning the class instance pointer

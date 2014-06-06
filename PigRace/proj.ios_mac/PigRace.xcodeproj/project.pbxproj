@@ -60,6 +60,7 @@
 		50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF629517ECD46A001EB2F8 /* Icon-100.png */; };
 		50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A017ECD613001EB2F8 /* Icon-29.png */; };
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
+		840DBF90194171BF00D4D155 /* icon_name.png in Resources */ = {isa = PBXBuildFile; fileRef = 840DBF8F194171BF00D4D155 /* icon_name.png */; };
 		84154BAD1921D59100BA8C65 /* SettingScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84154BAC1921D59100BA8C65 /* SettingScreen.cpp */; };
 		84154BB61921FA6500BA8C65 /* bg_menu_setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 84154BB11921FA6500BA8C65 /* bg_menu_setting.png */; };
 		84154BB71921FA6500BA8C65 /* btn_game_music_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 84154BB21921FA6500BA8C65 /* btn_game_music_off.png */; };
@@ -327,6 +328,7 @@
 		50EF629517ECD46A001EB2F8 /* Icon-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-100.png"; sourceTree = "<group>"; };
 		50EF62A017ECD613001EB2F8 /* Icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29.png"; sourceTree = "<group>"; };
 		50EF62A117ECD613001EB2F8 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
+		840DBF8F194171BF00D4D155 /* icon_name.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_name.png; sourceTree = "<group>"; };
 		84154BAB1921D57A00BA8C65 /* SettingScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingScreen.h; path = ../Classes/SettingScreen.h; sourceTree = "<group>"; };
 		84154BAC1921D59100BA8C65 /* SettingScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SettingScreen.cpp; path = ../Classes/SettingScreen.cpp; sourceTree = "<group>"; };
 		84154BB11921FA6500BA8C65 /* bg_menu_setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_menu_setting.png; sourceTree = "<group>"; };
@@ -618,6 +620,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				840DBF8F194171BF00D4D155 /* icon_name.png */,
 				84EE4D82193D67F80083F6E5 /* icon_fruit.png */,
 				84C087511936C5EE00A11BD9 /* finished_flag.png */,
 				8425A49D193475EC0012224F /* lost_game.mp3 */,
@@ -920,6 +923,7 @@
 				84154BB81921FA6500BA8C65 /* btn_game_music_on.png in Resources */,
 				84EE4D83193D67F80083F6E5 /* icon_fruit.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
+				840DBF90194171BF00D4D155 /* icon_name.png in Resources */,
 				8474DAA31933245500C60841 /* icon_pig_frame5.png in Resources */,
 				8474DAA51933245500C60841 /* icon_pig_frame7.png in Resources */,
 				84918D031920B4D300434E39 /* btn_tutorial_off.png in Resources */,

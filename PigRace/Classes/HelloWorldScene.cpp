@@ -3,6 +3,7 @@
 #include "HighScoreScreen.h"
 #include "TutorialScreen.h"
 #include "SelectLevelScreen.h"
+#include "platform/android/jni/JniHelper.h"
 
 USING_NS_CC;
 
@@ -56,13 +57,11 @@ void HelloWorld::createGameScreen() {
     
     // add a label shows "Pig Race"
     // create and initialize a label
-    gameLabel = Label::createWithSystemFont("Pig Race", "Marker Felt", 30);
-    
-    gameLabel->setScale(2.0);
-    gameLabel->setColor(Color3B::YELLOW);
+    gameLabel = Sprite::create("icon_name.png");
+    gameLabel->setScale(visibleSize.height / 5 / gameLabel->getContentSize().height);
     // position the label on the center of the screen
     gameLabel->setPosition(Point(origin.x + visibleSize.width/2,
-                                         origin.y + visibleSize.height - gameLabel->getContentSize().height));
+                                         origin.y + visibleSize.height - visibleSize.height / 5));
     
     // add the label as a child to this layer
     this->addChild(gameLabel, 1);
@@ -135,6 +134,12 @@ void HelloWorld::menuTutorialCallback(Ref *pSender) {
  * Handle event when click on start button.
  */
 void HelloWorld::menuStartCallback(Ref *pSender) {
+    JniMethodInfo t;
+    if (JniHelper::getStaticMethodInfo(t, "org/cocos2dx/cpp/AppActivity", "trackPurchase", "()V")) {
+        t.env->CallStaticVoidMethod(t.classID, t.methodID);
+        t.env->DeleteLocalRef(t.classID);
+    }
+    
     Scene *selectLevelScreen = SelectLevelScreen::createScene();
     Director::getInstance()->pushScene(selectLevelScreen);
 }

@@ -237,7 +237,9 @@ obj/local/armeabi/objs/cocos2dcpp_shared/__/__/Classes/HelloWorldScene.o: \
  /Users/admin/work/projects/PigRace/PigRace/proj.android/../cocos2d/cocos/2d/../deprecated/CCNotificationCenter.h \
  /Users/admin/work/projects/PigRace/PigRace/proj.android/../cocos2d/cocos/2d/../deprecated/CCDeprecated.h \
  jni/../../Classes/SettingScreen.h jni/../../Classes/HighScoreScreen.h \
- jni/../../Classes/TutorialScreen.h jni/../../Classes/SelectLevelScreen.h
+ jni/../../Classes/TutorialScreen.h jni/../../Classes/SelectLevelScreen.h \
+ /Users/admin/work/projects/PigRace/PigRace/proj.android/../cocos2d/cocos/2d/platform/android/jni/JniHelper.h \
+ /Users/admin/work/android-ndk-r9d/platforms/android-9/arch-arm/usr/include/jni.h
 
 jni/../../Classes/HelloWorldScene.h:
 
@@ -718,3 +720,7 @@ jni/../../Classes/HighScoreScreen.h:
 jni/../../Classes/TutorialScreen.h:
 
 jni/../../Classes/SelectLevelScreen.h:
+
+/Users/admin/work/projects/PigRace/PigRace/proj.android/../cocos2d/cocos/2d/platform/android/jni/JniHelper.h:
+
+/Users/admin/work/android-ndk-r9d/platforms/android-9/arch-arm/usr/include/jni.h:
